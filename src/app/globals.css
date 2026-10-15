@@ -1,26 +1,105 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Tokens sémantiques du thème par défaut "Papier & Signal".
+ * Source de vérité : src/theme/themes.ts. Ces valeurs ne servent que si JS
+ * ne s'est pas encore exécuté ; ensuite le thème choisi les remplace.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f4f3ef;
+  --bg2: color-mix(in srgb, #1a1915 5%, #f4f3ef);
+  --fg: #1a1915;
+  --muted: #5b5a56;
+  --blue: #002fa7;
+  --line: rgb(26 25 21 / 0.14);
+  --action: #ff6f0f;
+  --action-fg: #1a1915;
+  --chart-kcal: #ff6f0f;
+  --chart-protein: #002fa7;
+  --chart-carbs: #6b8bff;
+  --chart-fat: #8a8780;
+  --radius: 1rem;
+
+  /* Alias shadcn/ui : les composants shadcn ajoutés plus tard suivront le thème. */
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --card: var(--bg2);
+  --card-foreground: var(--fg);
+  --popover: var(--bg);
+  --popover-foreground: var(--fg);
+  --primary: var(--action);
+  --primary-foreground: var(--action-fg);
+  --secondary: var(--bg2);
+  --secondary-foreground: var(--fg);
+  --muted-foreground: var(--muted);
+  --accent: var(--bg2);
+  --accent-foreground: var(--fg);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--blue);
+}
+
+.dark {
+  --bg: #1a1915;
+  --bg2: color-mix(in srgb, #f4f3ef 5%, #1a1915);
+  --fg: #f4f3ef;
+  --muted: #9d9c98;
+  --blue: #6b8bff;
+  --line: rgb(244 243 239 / 0.12);
+  --chart-protein: #6b8bff;
+  --chart-carbs: #b7c6ff;
+  --chart-fat: #9d9c98;
 }
 
 @theme inline {
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-blue: var(--blue);
+  --color-line: var(--line);
+  --color-action: var(--action);
+  --color-action-fg: var(--action-fg);
+  --color-chart-kcal: var(--chart-kcal);
+  --color-chart-protein: var(--chart-protein);
+  --color-chart-carbs: var(--chart-carbs);
+  --color-chart-fat: var(--chart-fat);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+/* Toutes les données chiffrées. */
+.num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* iOS zoome sur les champs < 16px. */
+input,
+select,
+textarea {
+  font-size: 16px;
 }
