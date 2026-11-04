@@ -11,7 +11,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { ValueSheet } from "@/components/ui/value-sheet";
 import type { Profile, Sex } from "@/config/profile";
 import { RULES } from "@/config/rules";
-import { bmr, KCAL_FLOOR, startTargets, tdee, type Targets } from "@/engine/targets";
+import { bmr, KCAL_FLOOR, shownLoss, startTargets, type Targets } from "@/engine/targets";
 import { useBody } from "@/features/body/use-targets";
 import { adjustCapOf } from "@/features/goal/goal";
 import { decimals, profileBounds, withStrength } from "@/features/profile/draft";
@@ -176,8 +176,7 @@ type N = ReturnType<typeof useT>["n"];
 function Result({ draft, avgKg, targets }: { draft: Profile; avgKg: number; targets: Targets }) {
   const { t, n } = useT();
   const rest = bmr(draft, avgKg);
-  // « − perte » = ce qui sépare la dépense de l'objectif (plancher compris), pour que le calcul tombe juste.
-  const loss = Math.round(tdee(draft, avgKg)) - Math.round(targets.kcal);
+  const loss = shownLoss(draft, avgKg, targets.kcal);
   const cols = [
     { value: n(rest), label: t("profile.rest") },
     { value: t("profile.times", { n: n(draft.activity, decimals(draft.activity)) }), label: t("profile.activity-short") },
@@ -229,7 +228,7 @@ function resultSections(p: Profile, avgKg: number | null, targets: Targets | nul
       item: {
         mine: true,
         label: t("profile.why-result.goal-label"),
-        value: avgKg === null || !targets ? none : t("profile.minus", { n: n(Math.round(tdee(p, avgKg)) - Math.round(targets.kcal)) }),
+        value: avgKg === null || !targets ? none : t("profile.minus", { n: n(shownLoss(p, avgKg, targets.kcal)) }),
         text: t(p.strength ? "profile.why-result.goal-text-on" : "profile.why-result.goal-text-off", { pct }),
       },
     },

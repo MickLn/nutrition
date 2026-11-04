@@ -50,3 +50,8 @@ export function startTargets(p: Profile, avgWeightKg: number): Targets {
   const kcal = Math.max(raw, floor);
   return { kcal, ...macrosFor(kcal, p, avgWeightKg), fiber: p.fiberG, waterL: p.waterL, floorApplied: raw < floor, deficit };
 }
+
+/** « − perte » affichée : écart arrondi entre la dépense et l'objectif (plancher compris), pour que le calcul affiché tombe juste. */
+export function shownLoss(p: Profile, weightKg: number, kcal: number): number {
+  return Math.round(tdee(p, weightKg)) - Math.round(kcal);
+}

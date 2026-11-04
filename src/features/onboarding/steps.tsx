@@ -10,6 +10,7 @@ import { ValueSheet } from "@/components/ui/value-sheet";
 import { ONBOARDING } from "@/config/onboarding";
 import { DEFAULT_PROFILE, profileSchema, type Sex } from "@/config/profile";
 import { RULES } from "@/config/rules";
+import { shownLoss } from "@/engine/targets";
 import { UI } from "@/config/ui";
 import { useT } from "@/i18n/use-t";
 import { cn } from "@/lib/utils";
@@ -179,7 +180,7 @@ export function GoalStep({
         <Part value={n(bmr)} label={t("onboarding.at-rest")} />
         <Part value={t("onboarding.times", { n: n(profile.activity, decimals(profile.activity)) })} label={t("onboarding.activity-short")} divider />
         <Part
-          value={t("onboarding.minus", { n: n(targets.deficit) })}
+          value={t("onboarding.minus", { n: n(shownLoss(profile, weightKg, targets.kcal)) })}
           label={t("onboarding.loss", { pct: n(RULES.lossPctPerWeek.value * 100, 1) })}
           divider
         />
