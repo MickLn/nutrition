@@ -69,6 +69,10 @@ export type Menu = {
   id: string;
   name: string;
   items: { refType: "food" | "recipe"; refId: string; grams: number }[];
+  /** Menu marqué d'une étoile (filtre « Favoris »). Non indexé. */
+  favorite?: boolean;
+  /** Dernier ajout au journal (tri « Récents »). Non indexé. */
+  usedAt?: number;
   updatedAt: number;
 };
 

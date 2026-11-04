@@ -5,17 +5,17 @@ import type { FoodItem } from "@/features/foods/types";
 const uid = () => crypto.randomUUID();
 export const nowHHMM = (d = new Date()) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 
-/** Ajoute plusieurs aliments d'un coup au même repas. Renvoie les entrées créées. */
-export async function addEntries(date: string, meal: Meal, items: { food: FoodItem; grams: number }[], time = nowHHMM()) {
+/** Ajoute plusieurs aliments d'un coup au même repas. Renvoie les entrées créées. `refType` « recipe » : un plat (menus). */
+export async function addEntries(date: string, meal: Meal, items: { food: FoodItem; grams: number; refType?: LogEntry["refType"] }[], time = nowHHMM()) {
   const now = Date.now();
   const rows: LogEntry[] = items
     .filter((i) => i.grams > 0)
-    .map(({ food, grams }) => ({
+    .map(({ food, grams, refType = "food" }) => ({
       id: uid(),
       date,
       time,
       meal,
-      refType: "food",
+      refType,
       refId: food.id,
       name: food.name,
       grams,
