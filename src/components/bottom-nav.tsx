@@ -1,55 +1,50 @@
 "use client";
 
-import { BookOpen, ChefHat, Plus, Settings, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useT } from "@/i18n/use-t";
 import { cn } from "@/lib/utils";
 
+/** Composant « Barre du bas » du Figma : onglets en texte, onglet actif sur pastille bleu léger, + carré orange 44 px. */
 const items = [
-  { href: "/", label: "Journal", icon: BookOpen },
-  { href: "/recettes/", label: "Recettes", icon: ChefHat },
-  { href: "/ajouter/", label: "Ajouter", icon: Plus, primary: true },
-  { href: "/progres/", label: "Progrès", icon: TrendingUp },
-  { href: "/reglages/", label: "Réglages", icon: Settings },
+  { href: "/", label: "nav.journal" },
+  { href: "/recettes/", label: "nav.recipes" },
+  { href: "/ajouter/", label: "nav.add", primary: true },
+  { href: "/progres/", label: "nav.progress" },
+  { href: "/reglages/", label: "nav.me" },
 ];
 
 const normalize = (p: string) => (p.endsWith("/") ? p : `${p}/`);
 
 export function BottomNav() {
   const pathname = normalize(usePathname() ?? "/");
+  const { t } = useT();
+  // Les écrans de saisie ont leur propre bouton en bas : la barre se cache.
+  if (pathname.startsWith("/ajouter/")) return null;
   return (
-    <nav
-      aria-label="Navigation principale"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-bg/90 backdrop-blur-md pb-[env(safe-area-inset-bottom)]"
-    >
-      <ul className="mx-auto grid max-w-md grid-cols-5 px-2">
-        {items.map(({ href, label, icon: Icon, primary }) => {
+    <nav aria-label={t("nav.main")} className="fixed inset-x-0 bottom-0 z-40 bg-fond pb-[max(env(safe-area-inset-bottom),16px)] pt-[11px]">
+      <ul className="mx-auto flex max-w-md items-center px-[14px]">
+        {items.map(({ href, label, primary }) => {
           const active = pathname === href;
-          if (primary)
-            return (
-              <li key={href} className="flex justify-center">
+          return (
+            <li key={href} className="flex flex-1 justify-center">
+              {primary ? (
                 <Link
                   href={href}
-                  aria-label={label}
-                  className="-mt-5 flex size-14 items-center justify-center rounded-full bg-action text-action-fg shadow-[0_6px_20px_-6px_var(--action)] transition-transform active:scale-95"
+                  aria-label={t(label)}
+                  className="grid size-11 place-items-center rounded-base bg-signal text-[30px] font-light leading-none text-sur-signal transition-transform active:scale-95"
                 >
-                  <Icon className="size-7" strokeWidth={2.25} />
+                  <span aria-hidden>+</span>
                 </Link>
-              </li>
-            );
-          return (
-            <li key={href}>
-              <Link
-                href={href}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex min-h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-transform active:scale-95",
-                  active ? "text-blue" : "text-muted",
-                )}
-              >
-                <Icon className="size-[22px]" strokeWidth={active ? 2.25 : 1.75} />
-                {label}
-              </Link>
+              ) : (
+                <Link
+                  href={href}
+                  aria-current={active ? "page" : undefined}
+                  className="grid min-h-11 place-items-center"
+                >
+                  <span className={cn("rounded-base px-2 py-1.5 text-petit", active ? "bg-actif-leger text-actif" : "text-texte-discret")}>{t(label)}</span>
+                </Link>
+              )}
             </li>
           );
         })}

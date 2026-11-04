@@ -1,99 +1,109 @@
 "use client";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BackupReminder } from "@/components/backup-reminder";
-import { CalorieRing } from "@/components/calorie-ring";
-import { MacroBar } from "@/components/macro-bar";
-import { PageHeader } from "@/components/page-header";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { addDays, dayLabel, toISODate } from "@/lib/dates";
+import { showToast } from "@/components/ui/toast";
+import { useBricks } from "@/bricks/use-bricks";
+import { useBody } from "@/features/body/use-targets";
+import { WeightBlock } from "@/features/body/weight-block";
+import { DaySummary } from "@/features/day/day-summary";
+import { MealSection } from "@/features/day/meal-section";
+import { EditEntrySheet } from "@/features/journal/edit-entry-sheet";
+import { copyYesterday, hasDataBefore } from "@/features/journal/journal";
+import { WaterBlock } from "@/features/water/water-block";
+import { useT } from "@/i18n/use-t";
+import { addDays, toISODate } from "@/lib/dates";
 import { db, type LogEntry, type Meal } from "@/lib/db";
-import { entryMacros, GOALS_KEY, sumMacros, type Goals } from "@/lib/nutrition";
+import { sumMacros } from "@/lib/nutrition";
 
-const MEALS: { id: Meal; label: string }[] = [
-  { id: "breakfast", label: "Petit-déjeuner" },
-  { id: "lunch", label: "Déjeuner" },
-  { id: "dinner", label: "Dîner" },
-  { id: "snack", label: "Collation" },
-];
+const MEALS: Meal[] = ["breakfast", "lunch", "dinner", "snack"];
+/** Distance minimale d'un glissement horizontal pour changer de jour, en px. */
+const SWIPE_PX = 60;
 
-export default function JournalPage() {
-  const [date, setDate] = useState(() => toISODate(new Date()));
-  const entries = useLiveQuery(() => db.logEntries.where("date").equals(date).toArray(), [date]) ?? [];
-  const goals = useLiveQuery(() => db.settings.get(GOALS_KEY), [])?.value as Goals | undefined;
+export default function DayPage() {
+  const { t, locale } = useT();
+  const on = useBricks();
+  const today = toISODate(new Date());
+  const [date, setDate] = useState(today);
+  const [editing, setEditing] = useState<LogEntry | null>(null);
+  const [weightOpen, setWeightOpen] = useState(false);
+  const touch = useRef<{ x: number; y: number } | null>(null);
+
+  const entries = useLiveQuery(() => db.logEntries.where("date").equals(date).sortBy("time"), [date]) ?? [];
+  const yesterdayMeals = useLiveQuery(
+    async () => new Set((await db.logEntries.where("date").equals(addDays(date, -1)).toArray()).map((e) => e.meal)),
+    [date],
+  );
+  const canPrev = useLiveQuery(() => hasDataBefore(date), [date]) ?? false;
+  const canNext = date < today;
+  const body = useBody(today);
   const total = sumMacros(entries);
 
+  const go = (d: number) => {
+    if ((d < 0 && canPrev) || (d > 0 && canNext)) setDate(addDays(date, d));
+  };
+  const [y, m, d] = date.split("-").map(Number);
+  const label = new Intl.DateTimeFormat(locale, { weekday: "long", day: "numeric", month: "long" }).format(new Date(y, m - 1, d));
+
   return (
-    <>
-      <PageHeader title={dayLabel(date)} subtitle="Journal">
-        <div className="flex gap-1">
-          <Button variant="ghost" size="icon" aria-label="Jour précédent" onClick={() => setDate(addDays(date, -1))}>
-            <ChevronLeft />
-          </Button>
-          <Button variant="ghost" size="icon" aria-label="Jour suivant" onClick={() => setDate(addDays(date, 1))}>
-            <ChevronRight />
-          </Button>
+    <div
+      onTouchStart={(e) => (touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY })}
+      onTouchEnd={(e) => {
+        const s = touch.current;
+        if (!s) return;
+        const dx = e.changedTouches[0].clientX - s.x;
+        const dy = e.changedTouches[0].clientY - s.y;
+        if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > 2 * Math.abs(dy)) go(dx > 0 ? -1 : 1);
+        touch.current = null;
+      }}
+    >
+      <header className="flex items-center justify-between text-texte-discret">
+        <h1 className="libelle">{label}</h1>
+        <div className="flex gap-4 text-petit">
+          {canPrev && (
+            <button className="tap" aria-label={t("day.prev")} onClick={() => go(-1)}>
+              ‹
+            </button>
+          )}
+          {canNext && (
+            <button className="tap" aria-label={t("day.next")} onClick={() => go(1)}>
+              ›
+            </button>
+          )}
         </div>
-      </PageHeader>
+      </header>
 
-      <div className="space-y-3">
-        <BackupReminder />
-
-        <Card className="flex items-center gap-5">
-          <CalorieRing value={total.kcal} goal={goals?.kcal ?? null} />
-          <div className="flex-1 space-y-3">
-            <MacroBar label="Protéines" value={total.protein} goal={goals?.protein ?? null} color="var(--chart-protein)" />
-            <MacroBar label="Glucides" value={total.carbs} goal={goals?.carbs ?? null} color="var(--chart-carbs)" />
-            <MacroBar label="Lipides" value={total.fat} goal={goals?.fat ?? null} color="var(--chart-fat)" />
-          </div>
-        </Card>
-        {!goals && (
-          <p className="px-1 text-sm text-muted">
-            Objectifs pas encore définis. Le calculateur arrive avec la phase 8.
-          </p>
-        )}
-
-        {MEALS.map((meal) => (
-          <MealCard key={meal.id} label={meal.label} entries={entries.filter((e) => e.meal === meal.id)} />
-        ))}
+      <div className="mt-[18px]">
+        <DaySummary total={total} targets={body?.targets ?? null} onNoGoal={() => setWeightOpen(true)} />
       </div>
-    </>
-  );
-}
 
-function MealCard({ label, entries }: { label: string; entries: LogEntry[] }) {
-  const kcal = sumMacros(entries).kcal;
-  return (
-    <Card className="p-0">
-      <div className="flex items-center justify-between py-2 pl-4 pr-2">
-        <div>
-          <h2 className="text-[15px] font-semibold">{label}</h2>
-          <p className="num text-xs text-muted">{Math.round(kcal)} kcal</p>
+      {(on("water") || on("body")) && (
+        <div className="mt-[22px] flex">
+          {on("water") && <WaterBlock date={date} goalL={body?.targets?.waterL ?? null} />}
+          {on("body") && <WeightBlock body={body} today={today} open={weightOpen} setOpen={setWeightOpen} />}
         </div>
-        <Link
-          href="/ajouter/"
-          aria-label={`Ajouter au ${label.toLowerCase()}`}
-          className="grid size-11 place-items-center rounded-full text-blue transition-transform active:scale-95"
-        >
-          <Plus className="size-5" />
-        </Link>
-      </div>
-      {entries.length > 0 && (
-        <ul className="border-t border-line">
-          {entries.map((e) => (
-            <li key={e.id} className="flex items-center justify-between px-4 py-3 text-sm">
-              <span>{e.name}</span>
-              <span className="num text-muted">
-                {e.grams} g · {Math.round(entryMacros(e).kcal)} kcal
-              </span>
-            </li>
-          ))}
-        </ul>
       )}
-    </Card>
+      {!on("body") && weightOpen && <WeightBlock body={body} today={today} open={weightOpen} setOpen={setWeightOpen} />}
+
+      <BackupReminder />
+
+      {MEALS.map((meal) => (
+        <MealSection
+          key={meal}
+          meal={meal}
+          date={date}
+          entries={entries.filter((e) => e.meal === meal)}
+          canCopy={!!yesterdayMeals?.has(meal)}
+          onEdit={setEditing}
+          onCopyYesterday={async (ml) => {
+            const { undo } = await copyYesterday(date, ml);
+            showToast(t("day.copied", { to: t(`meals-to.${ml}`) }), { label: t("day.undo"), run: undo });
+          }}
+        />
+      ))}
+
+      <EditEntrySheet entry={editing} onClose={() => setEditing(null)} />
+    </div>
   );
 }

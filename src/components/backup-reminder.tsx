@@ -1,10 +1,10 @@
 "use client";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { CloudUpload } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { BACKUP_INTERVAL_KEY, DEFAULT_BACKUP_INTERVAL_DAYS, exportBackup, LAST_BACKUP_KEY } from "@/lib/backup";
+import { Alert } from "@/components/ui/alert";
+import { useT } from "@/i18n/use-t";
 import { db } from "@/lib/db";
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -12,6 +12,7 @@ const DAY = 24 * 60 * 60 * 1000;
 /** iOS interdit l'écriture de fichiers en arrière-plan : on rappelle la sauvegarde à l'ouverture. */
 export function BackupReminder() {
   const [busy, setBusy] = useState(false);
+  const { t } = useT();
   const state = useLiveQuery(async () => {
     const [last, interval, entries] = await Promise.all([
       db.settings.get(LAST_BACKUP_KEY),
@@ -30,13 +31,10 @@ export function BackupReminder() {
   if (!state?.show) return null;
   const days = state.daysSince;
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-line bg-bg p-3">
-      <CloudUpload className="size-5 shrink-0 text-blue" />
-      <p className="flex-1 text-sm">
-        {days === null ? "Aucune sauvegarde pour l'instant." : `Dernière sauvegarde il y a ${days} jours.`}
-      </p>
-      <Button
-        size="sm"
+    <div className="mt-2 flex items-center justify-between gap-3">
+      <Alert>{days === null ? t("backup.none") : t("backup.since", { n: days })}</Alert>
+      <button
+        className="tap shrink-0 text-petit text-actif"
         disabled={busy}
         onClick={async () => {
           setBusy(true);
@@ -47,8 +45,8 @@ export function BackupReminder() {
           }
         }}
       >
-        Sauvegarder
-      </Button>
+        {t("backup.save")}
+      </button>
     </div>
   );
 }
