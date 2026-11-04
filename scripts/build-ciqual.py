@@ -28,15 +28,31 @@ COLUMNS = {  # repère dans l'en-tête (en minuscules, sans retours à la ligne)
 
 
 def num(v):
+    """Valeur en nombre ; None si elle manque dans CIQUAL (« - » ou vide). « < x » et « traces » valent 0."""
     if v is None:
-        return 0
+        return None
     s = str(v).strip().replace(",", ".")
-    if s in ("-", "") or s.startswith("<") or s.lower() == "traces":
+    if s in ("-", ""):
+        return None
+    if s.startswith("<") or s.lower() == "traces":
         return 0
     try:
         return round(float(s), 2)
     except ValueError:
-        return 0
+        return None
+
+
+# Énergie absente : recalculée avec les coefficients d'Atwater (règlement européen 1169/2011) si les macros sont connues.
+KCAL_PER_G = {"protein": 4, "carbs": 4, "fat": 9, "fiber": 2}
+
+
+def complete(v: dict):
+    """Renvoie la ligne avec l'énergie, ou None si on ne peut pas la connaître (l'aliment est alors écarté)."""
+    if v["kcal"] is None:
+        if any(v[k] is None for k in ("protein", "carbs", "fat")):
+            return None
+        v["kcal"] = round(sum((v[k] or 0) * g for k, g in KCAL_PER_G.items()))
+    return [v[k] if v[k] is not None else 0 for k in COLUMNS]
 
 
 def main(path: str, lang: str):
@@ -51,20 +67,24 @@ def main(path: str, lang: str):
             if any(h.startswith(m) or m in h for m in marks) and key not in idx:
                 # Énergie : la colonne en kcal suit celle en kJ.
                 idx[key] = i + 1 if key == "kcal" else i
-    values, names = {}, {}
+    values, names, skipped = {}, {}, 0
     for r in rows:
         if r[code_i] is None:
             continue
         code = str(r[code_i]).strip()
+        row = complete({k: num(r[idx[k]]) for k in COLUMNS})
+        if row is None:
+            skipped += 1
+            continue
         names[code] = str(r[name_i]).strip()
-        values[code] = [num(r[idx[k]]) for k in COLUMNS]
+        values[code] = row
     out = Path(__file__).resolve().parent.parent / "public" / "data"
     out.mkdir(parents=True, exist_ok=True)
     (out / "ciqual.json").write_text(
         json.dumps({"fields": list(COLUMNS), "foods": values}, separators=(",", ":"), ensure_ascii=False)
     )
     (out / f"ciqual-names.{lang}.json").write_text(json.dumps(names, separators=(",", ":"), ensure_ascii=False))
-    print(f"{len(values)} aliments, colonnes {idx}")
+    print(f"{len(values)} aliments ({skipped} écartés : énergie inconnue), colonnes {idx}")
 
 
 if __name__ == "__main__":

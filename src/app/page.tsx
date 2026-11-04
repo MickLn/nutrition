@@ -12,6 +12,7 @@ import { DaySummary } from "@/features/day/day-summary";
 import { MealSection } from "@/features/day/meal-section";
 import { ToFinish } from "@/features/recipes/to-finish";
 import { EditEntrySheet } from "@/features/journal/edit-entry-sheet";
+import { CalendarSheet } from "@/features/calendar/calendar-sheet";
 import { copyYesterday, hasDataBefore } from "@/features/journal/journal";
 import { WaterBlock } from "@/features/water/water-block";
 import { useT } from "@/i18n/use-t";
@@ -30,6 +31,7 @@ export default function DayPage() {
   const [date, setDate] = useState(today);
   const [editing, setEditing] = useState<LogEntry | null>(null);
   const [weightOpen, setWeightOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const touch = useRef<{ x: number; y: number } | null>(null);
 
   const entries = useLiveQuery(() => db.logEntries.where("date").equals(date).sortBy("time"), [date]) ?? [];
@@ -63,23 +65,35 @@ export default function DayPage() {
       }}
     >
       <header className="flex items-center justify-between text-texte-discret">
-        <h1 className="libelle">{label}</h1>
-        <div className="flex gap-4 text-petit">
+        <button className="tap min-h-11 text-left" aria-label={t("day.pick-date")} onClick={() => setCalendarOpen(true)}>
+          <h1 className="libelle">{label}</h1>
+        </button>
+        <div className="flex text-petit">
           {canPrev && (
-            <button className="tap" aria-label={t("day.prev")} onClick={() => go(-1)}>
+            <button className="tap w-11 text-right" aria-label={t("day.prev")} onClick={() => go(-1)}>
               ‹
             </button>
           )}
           {canNext && (
-            <button className="tap" aria-label={t("day.next")} onClick={() => go(1)}>
+            <button className="tap w-11 text-right" aria-label={t("day.next")} onClick={() => go(1)}>
               ›
             </button>
           )}
         </div>
       </header>
+      <CalendarSheet
+        open={calendarOpen}
+        date={date}
+        today={today}
+        onClose={() => setCalendarOpen(false)}
+        onPick={(d) => {
+          setDate(d);
+          setCalendarOpen(false);
+        }}
+      />
 
       <div className="mt-[18px]">
-        <DaySummary total={total} targets={body?.targets ?? null} onNoGoal={() => setWeightOpen(true)} />
+        <DaySummary date={date} total={total} targets={body?.targets ?? null} onNoGoal={() => setWeightOpen(true)} />
       </div>
 
       {(on("water") || on("body")) && (
