@@ -137,5 +137,31 @@
     "none": "Aucune sauvegarde pour l'instant",
     "since": "Dernière sauvegarde il y a {n} jours",
     "save": "Sauvegarder"
+  },
+  "me": {
+    "title": "Moi",
+    "week": "Cette semaine",
+    "days": "L M M J V S D",
+    "protein-days": "jours avec ton objectif de protéines atteint",
+    "no-goal": "Note ton poids pour suivre ton objectif de protéines.",
+    "week-empty": "Rien de noté cette semaine.",
+    "kcal-avg": "Moyenne {kcal} kcal",
+    "water-days": "Eau {n}/{total} jours",
+    "top-label": "Top {count} sur {days} jours",
+    "top-times": "{n}×",
+    "top-see": "Voir le top {count}",
+    "top-empty": "Rien de noté ces {days} derniers jours.",
+    "top-title": "Top {count}",
+    "mode-label": "Classement",
+    "mode-eaten": "Les plus mangés",
+    "mode-protein": "Sources de protéines",
+    "period-label": "Période",
+    "period-days": "{n} j",
+    "period-year": "1 an",
+    "usual": "portion habituelle {g} g",
+    "protein-g": "{n} g",
+    "you": "Toi",
+    "profile": "Profil",
+    "settings": "Réglages"
   }
 }

@@ -137,5 +137,31 @@
     "none": "No backup yet",
     "since": "Last backup {n} days ago",
     "save": "Back up"
+  },
+  "me": {
+    "title": "Me",
+    "week": "This week",
+    "days": "M T W T F S S",
+    "protein-days": "days you hit your protein goal",
+    "no-goal": "Log your weight to track your protein goal.",
+    "week-empty": "Nothing logged this week.",
+    "kcal-avg": "Average {kcal} kcal",
+    "water-days": "Water {n}/{total} days",
+    "top-label": "Top {count} over {days} days",
+    "top-times": "{n}×",
+    "top-see": "See the top {count}",
+    "top-empty": "Nothing logged in the last {days} days.",
+    "top-title": "Top {count}",
+    "mode-label": "Ranking",
+    "mode-eaten": "Most eaten",
+    "mode-protein": "Protein sources",
+    "period-label": "Period",
+    "period-days": "{n} d",
+    "period-year": "1 yr",
+    "usual": "usual portion {g} g",
+    "protein-g": "{n} g",
+    "you": "You",
+    "profile": "Profile",
+    "settings": "Settings"
   }
 }
