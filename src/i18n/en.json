@@ -28,13 +28,30 @@
     "copied": "Yesterday copied {to}",
     "removed": "Removed {from}",
     "undo": "Undo",
-    "empty": "–"
+    "empty": "–",
+    "pick-date": "Pick a day",
+    "to-find": "g to go",
+    "suggest-line": "{g} g, {kcal} kcal",
+    "suggest-gain": "+{n} g",
+    "suggest-added": "{name} added {to}",
+    "suggest-none": "Nothing to suggest right now. Look for a food with the Add button.",
+    "suggest-late": "Late in the evening, light foods only.",
+    "suggest-done": "Protein target reached.",
+    "suggest-no-goal": "Log your weight to work out your target."
   },
   "water": {
     "title": "Water",
     "add": "Add water",
     "added": "{ml} ml added",
-    "of-goal": "/ {goal} L"
+    "of-goal": "/ {goal} L",
+    "sheet-add": "Add {ml} ml",
+    "today": "Today"
+  },
+  "calendar": {
+    "prev-month": "Previous month",
+    "next-month": "Next month",
+    "label": "Calendar",
+    "has-entries": "{date}, meals logged"
   },
   "weight": {
     "title": "Weight",

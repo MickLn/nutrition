@@ -6,6 +6,8 @@ export const UI = {
   waterQuickMl: 250,
   /** Un carré de la jauge Eau = un verre de cette taille, en ml. */
   waterGlassMl: 250,
+  /** Durée d'un appui long (jauge Eau), en ms. */
+  longPressMs: 500,
   /** Durée d'affichage d'un message avec « Annuler », en ms. */
   toastMs: 5000,
   /** Nombre d'aliments récents proposés avant toute recherche. */
@@ -15,5 +17,5 @@ export const UI = {
   /** Poids accepté à la saisie, en kg (évite une faute de frappe). */
   weightKg: { min: 25, max: 350 },
   /** Pages sans barre du bas (écrans de saisie et pages détail, comme dans le Figma). */
-  navHiddenOn: ["/ajouter/", "/bienvenue/", "/aliment/", "/recettes/plat/", "/recettes/lot/", "/recettes/part/", "/recettes/menu/"] as string[],
+  navHiddenOn: ["/ajouter/", "/bienvenue/", "/aliment/", "/recettes/plat/", "/recettes/lot/", "/recettes/part/", "/recettes/menu/", "/proteines/"] as string[],
 } as const;
