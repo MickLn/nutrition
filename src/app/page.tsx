@@ -6,6 +6,7 @@ import { BackupReminder } from "@/components/backup-reminder";
 import { showToast } from "@/components/ui/toast";
 import { useBricks } from "@/bricks/use-bricks";
 import { useBody } from "@/features/body/use-targets";
+import { useProfile } from "@/features/profile/profile";
 import { WeightBlock } from "@/features/body/weight-block";
 import { DaySummary } from "@/features/day/day-summary";
 import { MealSection } from "@/features/day/meal-section";
@@ -38,6 +39,8 @@ export default function DayPage() {
   const canPrev = useLiveQuery(() => hasDataBefore(date), [date]) ?? false;
   const canNext = date < today;
   const body = useBody(today);
+  // L'objectif d'eau vient du profil : il ne dépend pas d'une pesée.
+  const profile = useProfile();
   const total = sumMacros(entries);
 
   const go = (d: number) => {
@@ -80,7 +83,7 @@ export default function DayPage() {
 
       {(on("water") || on("body")) && (
         <div className="mt-[22px] flex">
-          {on("water") && <WaterBlock date={date} goalL={body?.targets?.waterL ?? null} />}
+          {on("water") && <WaterBlock date={date} goalL={profile?.waterL ?? null} />}
           {on("body") && <WeightBlock body={body} today={today} open={weightOpen} setOpen={setWeightOpen} />}
         </div>
       )}
