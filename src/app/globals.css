@@ -19,6 +19,7 @@
   --sur-signal: #1a1915;
   --eau: #002fa799;
   --voile: #1a191566;
+  --camera: #1a1915;
   --rayon: 4px;
 }
 
@@ -46,6 +47,7 @@
   --color-sur-signal: var(--sur-signal);
   --color-eau: var(--eau);
   --color-voile: var(--voile);
+  --color-camera: var(--camera);
   --radius-base: var(--rayon);
 
   --font-sans: var(--font-outfit);

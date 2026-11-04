@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
@@ -34,7 +35,16 @@ function EditBody({ entry, onClose }: { entry: LogEntry; onClose: () => void }) 
       <p className="libelle">
         {t(`meals.${entry.meal}`)}, {entry.time}
       </p>
-      <h2 className="mt-1.5 text-section [overflow-wrap:anywhere]">{entry.name}</h2>
+      <h2 className="mt-1.5 text-section [overflow-wrap:anywhere]">
+        {entry.refType === "food" ? (
+          // Le nom ouvre la fiche de l'aliment (Figma 7:315, « ‹ Journal »).
+          <Link href={`/aliment/?${new URLSearchParams({ id: entry.refId, from: "journal", g: String(entry.grams), meal: entry.meal, date: entry.date })}`} className="tap">
+            {entry.name} <span className="text-texte-discret" aria-hidden>›</span>
+          </Link>
+        ) : (
+          entry.name
+        )}
+      </h2>
       <div className="mt-3.5">
         <GramsField value={grams} onChange={setG} label={t("add.grams")} unit={t("units.g")} />
       </div>

@@ -3,7 +3,8 @@
 Usage : python3 scripts/build-ciqual.py <ciqual.xlsx> <langue>
   - écrit public/data/ciqual.json (valeurs pour 100 g, communes à toutes les langues)
   - écrit public/data/ciqual-names.<langue>.json (noms des aliments dans cette langue)
-Lancer une fois par fichier de langue (version anglaise, version française…).
+Lancer une fois par fichier de langue (version anglaise, version française…),
+puis ajouter la langue dans src/config/catalog.ts (CIQUAL_NAME_LANGS) et dans la liste PAGES de public/sw.js.
 
 Valeurs : « - » (non mesuré), « traces » et « < x » (sous le seuil de mesure) deviennent 0.
 Source : ANSES, table CIQUAL 2025, Licence ouverte Etalab (voir assets/credits.md du projet).

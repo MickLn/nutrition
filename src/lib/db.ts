@@ -16,6 +16,8 @@ export type Food = {
   name: string;
   brand?: string;
   barcode?: string;
+  /** Contenance affichée sur l'emballage (« 500 g »), texte libre d'Open Food Facts. Non indexé. */
+  quantity?: string;
   per100g: Macros;
   /** Étiquettes libres, par exemple « light » pour les suggestions du soir. */
   tags?: string[];
@@ -25,6 +27,8 @@ export type Food = {
   imageUrl?: string;
   /** Photo prise par l'utilisateur (table images). */
   imageId?: string;
+  /** « Ma pesée » : rendement cru → cuit mesuré sur ce produit (poids cuit ÷ poids cru). Non indexé. */
+  cookedYield?: number;
   updatedAt: number;
 };
 

@@ -1,4 +1,5 @@
 import MiniSearch from "minisearch";
+import { CIQUAL_NAME_LANGS } from "@/config/catalog";
 import { db, type Food } from "@/lib/db";
 import type { FoodItem } from "./types";
 
@@ -24,9 +25,7 @@ export function ciqualFoods(lang: string): Promise<FoodItem[]> {
     const p = (async () => {
       const [data, names] = await Promise.all([
         getJSON<CiqualFile>("/data/ciqual.json"),
-        getJSON<Record<string, string>>(`/data/ciqual-names.${lang}.json`).then(
-          (n) => n ?? getJSON<Record<string, string>>(`/data/ciqual-names.${FALLBACK_LANG}.json`),
-        ),
+        getJSON<Record<string, string>>(`/data/ciqual-names.${CIQUAL_NAME_LANGS.includes(lang) ? lang : FALLBACK_LANG}.json`),
       ]);
       if (!data || !names) throw new Error("ciqual-missing");
       const at = (k: string) => data.fields.indexOf(k);
