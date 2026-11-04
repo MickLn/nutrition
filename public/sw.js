@@ -4,14 +4,26 @@
  * - Pages : réseau d'abord, repli sur le cache hors-ligne.
  * - Images Open Food Facts : cache d'abord (vignettes produits).
  */
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL = `shell-${VERSION}`;
 const STATIC = `static-${VERSION}`;
 const IMAGES = `images-${VERSION}`;
-const PAGES = ["/", "/ajouter/", "/recettes/", "/progres/", "/reglages/"];
+const PAGES = [
+  "/", "/ajouter/", "/bienvenue/", "/recettes/", "/progres/",
+  "/moi/", "/moi/top/", "/moi/profil/", "/moi/reglages/", "/moi/reglages/objectif/",
+  "/moi/reglages/sauvegarde/", "/moi/reglages/apparence/", "/moi/reglages/sources/",
+  "/moi/reglages/poids/", "/moi/reglages/notion/",
+  "/data/ciqual.json", "/data/ciqual-names.fr.json", "/data/ciqual-names.en.json",
+];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(SHELL).then((c) => c.addAll(PAGES)).then(() => self.skipWaiting()));
+  // Chaque fichier est mis en cache séparément : une page absente ne bloque pas l'installation.
+  event.waitUntil(
+    caches
+      .open(SHELL)
+      .then((c) => Promise.allSettled(PAGES.map((p) => c.add(p))))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener("activate", (event) => {

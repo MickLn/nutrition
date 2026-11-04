@@ -11,7 +11,7 @@ const items = [
   { href: "/recettes/", label: "nav.recipes" },
   { href: "/ajouter/", label: "nav.add", primary: true },
   { href: "/progres/", label: "nav.progress" },
-  { href: "/reglages/", label: "nav.me" },
+  { href: "/moi/", label: "nav.me" },
 ];
 
 const normalize = (p: string) => (p.endsWith("/") ? p : `${p}/`);
@@ -20,12 +20,12 @@ export function BottomNav() {
   const pathname = normalize(usePathname() ?? "/");
   const { t } = useT();
   // Les écrans de saisie ont leur propre bouton en bas : la barre se cache.
-  if (pathname.startsWith("/ajouter/")) return null;
+  if (pathname.startsWith("/ajouter/") || pathname.startsWith("/bienvenue/")) return null;
   return (
     <nav aria-label={t("nav.main")} className="fixed inset-x-0 bottom-0 z-40 bg-fond pb-[max(env(safe-area-inset-bottom),16px)] pt-[11px]">
       <ul className="mx-auto flex max-w-md items-center px-[14px]">
         {items.map(({ href, label, primary }) => {
-          const active = pathname === href;
+          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <li key={href} className="flex flex-1 justify-center">
               {primary ? (

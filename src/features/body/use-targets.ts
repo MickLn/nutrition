@@ -1,14 +1,12 @@
 "use client";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { DEFAULT_PROFILE, profileSchema, type Profile } from "@/config/profile";
 import { startTargets, type Targets } from "@/engine/targets";
 import { average7, weighInStatus, type WeighInStatus } from "@/engine/weight";
 import { addDays } from "@/lib/dates";
 import { db } from "@/lib/db";
 
-/** Réglage où est rangé le profil (rempli plus tard par Moi › Profil). */
-export const PROFILE_KEY = "profile";
+import { loadProfile } from "@/features/profile/profile";
 
 export type BodyState = {
   targets: Targets | null;
@@ -22,9 +20,7 @@ export type BodyState = {
 /** Objectifs du jour : moteur de calcul + profil + moyenne des pesées sur 7 jours. Sans pesée, pas d'objectif. */
 export function useBody(today: string): BodyState | undefined {
   return useLiveQuery(async () => {
-    const [stored, rows] = await Promise.all([db.settings.get(PROFILE_KEY), db.weights.toArray()]);
-    const parsed = profileSchema.safeParse(stored?.value);
-    const profile = parsed.success ? (parsed.data as Profile) : DEFAULT_PROFILE;
+    const [profile, rows] = await Promise.all([loadProfile(), db.weights.toArray()]);
     const weights = rows.map((w) => ({ date: w.date, kg: w.kg, at: w.updatedAt }));
     const avgKg = average7(weights, today);
     const before = average7(weights, addDays(today, -7));
