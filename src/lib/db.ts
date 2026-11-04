@@ -16,6 +16,8 @@ export type Food = {
   name: string;
   brand?: string;
   barcode?: string;
+  /** Contenance affichée sur l'emballage (« 500 g »), texte libre d'Open Food Facts. Non indexé. */
+  quantity?: string;
   per100g: Macros;
   /** Étiquettes libres, par exemple « light » pour les suggestions du soir. */
   tags?: string[];

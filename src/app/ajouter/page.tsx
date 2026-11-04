@@ -8,6 +8,7 @@ import { FoodSearch } from "@/features/add/food-search";
 import { MealPicker } from "@/features/add/meal-picker";
 import { WeighRow, type Weighed } from "@/features/add/weigh-list";
 import { addEntries, nowHHMM } from "@/features/journal/journal";
+import { ScanButton } from "@/features/scanner/scan-button";
 import { mealFromTime } from "@/engine/entry";
 import { useT } from "@/i18n/use-t";
 import { toISODate } from "@/lib/dates";
@@ -62,7 +63,7 @@ function AddFlow() {
 
       <div className="mt-3.5">
         {step === "search" ? (
-          <FoodSearch selected={items.map((i) => i.food)} onToggle={toggle} />
+          <FoodSearch selected={items.map((i) => i.food)} onToggle={toggle} action={<ScanButton date={params.get("date")} meal={meal} />} />
         ) : (
           <>
             {items.map((it) => (
