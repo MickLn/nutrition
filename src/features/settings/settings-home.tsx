@@ -1,9 +1,11 @@
 "use client";
 
+import { Alert } from "@/components/ui/alert";
 import { BackLink, PageTitle } from "@/components/ui/page";
 import { Row } from "@/components/ui/row";
 import { useT } from "@/i18n/use-t";
 import { useAppearance } from "@/theme/appearance-provider";
+import { useNotionLate } from "@/features/notion/use-notion";
 import { useProfile } from "@/features/profile/profile";
 import { HEALTH_AUTO_IMPORT_KEY, useBackupState, useSetting, useSettingsFormat } from "./settings";
 
@@ -16,6 +18,7 @@ export function SettingsHome() {
   const goalKg = useProfile()?.goalKg;
   const healthAuto = useSetting<boolean>(HEALTH_AUTO_IMPORT_KEY);
   const { last } = useBackupState();
+  const notionLate = useNotionLate();
 
   return (
     <div className="flex flex-col">
@@ -45,7 +48,12 @@ export function SettingsHome() {
           value={last === undefined ? undefined : last === null ? t("settings.never") : f.ago(last)}
           chevron
         />
-        <Row href="/moi/reglages/notion/" label={t("settings.rows.notion")} chevron />
+        <Row
+          href="/moi/reglages/notion/"
+          label={t("settings.rows.notion")}
+          value={notionLate ? <Alert>{t("settings.notion.late")}</Alert> : undefined}
+          chevron
+        />
       </div>
 
       <div className="mt-6">

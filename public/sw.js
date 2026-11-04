@@ -1,15 +1,15 @@
 /*
- * Service worker de l'app Nutrition (export statique, aucun serveur).
+ * Service worker de l'app Nutrition (pages statiques ; /api/ n'est jamais mis en cache).
  * - Fichiers versionnés de Next (/_next/static) : cache d'abord, ils ne changent jamais.
  * - Pages : réseau d'abord, repli sur le cache hors-ligne.
  * - Images Open Food Facts : cache d'abord (vignettes produits).
  */
-const VERSION = "v5";
+const VERSION = "v6";
 const SHELL = `shell-${VERSION}`;
 const STATIC = `static-${VERSION}`;
 const IMAGES = `images-${VERSION}`;
 const PAGES = [
-  "/", "/ajouter/", "/ajouter/scanner/", "/ajouter/aliment/", "/aliment/", "/bienvenue/", "/recettes/", "/recettes/plat/", "/recettes/lot/", "/recettes/part/", "/recettes/menu/", "/recettes/menu/voir/", "/progres/", "/progres/bilan/", "/proteines/",
+  "/", "/ajouter/", "/ajouter/scanner/", "/ajouter/aliment/", "/aliment/", "/bienvenue/", "/recettes/", "/recettes/plat/", "/recettes/lot/", "/recettes/part/", "/recettes/menu/", "/recettes/menu/voir/", "/progres/", "/progres/bilan/", "/proteines/", "/sante/",
   "/moi/", "/moi/top/", "/moi/profil/", "/moi/reglages/", "/moi/reglages/objectif/",
   "/moi/reglages/sauvegarde/", "/moi/reglages/apparence/", "/moi/reglages/sources/",
   "/moi/reglages/poids/", "/moi/reglages/notion/",
@@ -40,6 +40,8 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+
+  if (url.origin === self.location.origin && url.pathname.startsWith("/api/")) return;
 
   if (url.origin === self.location.origin && url.pathname.startsWith("/_next/static/")) {
     event.respondWith(cacheFirst(req, STATIC));

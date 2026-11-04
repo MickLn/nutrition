@@ -23,11 +23,13 @@ export type Backup = z.infer<typeof backupSchema>;
 export const LAST_BACKUP_KEY = "lastBackupAt";
 export const BACKUP_INTERVAL_KEY = "backupIntervalDays";
 export const DEFAULT_BACKUP_INTERVAL_DAYS = 7;
+/** Réglage jamais copié dans une sauvegarde : la date de la dernière, et tout code secret (clé finissant par « .secret »). */
+export const isPrivateSetting = (key: string) => key === LAST_BACKUP_KEY || key.endsWith(".secret");
 
 export async function buildBackup({ includeImages }: { includeImages: boolean }): Promise<Backup> {
   const tables = {} as Backup["tables"];
   for (const t of DATA_TABLES) {
-    tables[t] = (await db.table(t).toArray()).filter((row) => !(t === "settings" && row.key === LAST_BACKUP_KEY));
+    tables[t] = (await db.table(t).toArray()).filter((row) => !(t === "settings" && isPrivateSetting(row.key)));
   }
   const images = includeImages
     ? await Promise.all(
