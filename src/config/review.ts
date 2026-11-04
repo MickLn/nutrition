@@ -2,7 +2,7 @@
  * Réglages de la brique Bilan de la semaine (Progrès › Bilans). Étiquette « conception » comme dans rules.ts.
  */
 export const REVIEW = {
-  /** Réglage (table settings) où est rangé l'historique des ajustements acceptés ou refusés. */
+  /** Réglage (table settings) où est rangé l'historique des ajustements automatiques (un par semaine). */
   settingsKey: "kcal-adjustments",
   /** Début de semaine : 1 = lundi (Figma : « Semaine du 6 octobre » est un lundi). */
   weekStartDay: { value: 1, kind: "conception" },
@@ -12,8 +12,6 @@ export const REVIEW = {
   minWeighIns: { value: 4, kind: "conception" },
   /** Nombre de bilans listés dans Progrès. */
   listWeeks: { value: 8, kind: "conception" },
-  /** Après un ajustement accepté, pas de nouvelle proposition pendant ce nombre de jours (la moyenne du poids met du temps à réagir). */
-  cooldownDays: { value: 14, kind: "conception" },
   /**
    * Moyenne hebdomadaire avec tolérance : proposée, jamais validée (etat-projet.md).
    * Désactivée : tant que MickLn ne l'a pas validée, le bilan compare la moyenne à l'objectif sans marge.

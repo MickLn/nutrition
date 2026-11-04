@@ -797,7 +797,6 @@
     "empty": "Pas encore de bilan : il faut au moins {n} pesées dans une semaine.",
     "week-of": "Semaine du {date}",
     "row-protein": "protéines atteintes",
-    "row-proposal": "ajustement proposé",
     "row-days": "{n}/7 jours",
     "back": "Progrès",
     "label": "Bilan",
@@ -823,13 +822,6 @@
     "kcal-day": "kcal / jour",
     "kcal-day-same": "kcal / jour, inchangées",
     "explain-plateau": "Ta moyenne stagne depuis 3 semaines. L’objectif baisse de {delta} kcal, la limite par semaine. Tes protéines ne changent pas.",
-    "explain-fast": "Ta moyenne baisse plus vite que prévu. L’objectif monte de {delta} kcal. Tes protéines ne changent pas.",
-    "accept": "Passer à {n} kcal",
-    "refuse": "Garder {n} kcal",
-    "accepted-on": "Accepté le {date}.",
-    "accepted-toast": "Objectif : {n} kcal / jour",
-    "refused-toast": "Objectif gardé : {n} kcal / jour",
-    "refused-text": "Tu as gardé {n} kcal pour cette semaine.",
-    "error": "Impossible d’enregistrer ta réponse."
+    "explain-fast": "Ta moyenne baisse plus vite que prévu. L’objectif monte de {delta} kcal. Tes protéines ne changent pas."
   }
 }

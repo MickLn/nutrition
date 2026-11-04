@@ -797,7 +797,6 @@
     "empty": "No review yet: you need at least {n} weigh-ins in a week.",
     "week-of": "Week of {date}",
     "row-protein": "protein reached",
-    "row-proposal": "adjustment proposed",
     "row-days": "{n}/7 days",
     "back": "Progress",
     "label": "Review",
@@ -823,13 +822,6 @@
     "kcal-day": "kcal / day",
     "kcal-day-same": "kcal / day, unchanged",
     "explain-plateau": "Your average has been flat for 3 weeks. The target drops by {delta} kcal, the weekly limit. Your protein does not change.",
-    "explain-fast": "Your average is dropping faster than planned. The target goes up by {delta} kcal. Your protein does not change.",
-    "accept": "Switch to {n} kcal",
-    "refuse": "Keep {n} kcal",
-    "accepted-on": "Accepted on {date}.",
-    "accepted-toast": "Target: {n} kcal / day",
-    "refused-toast": "Target kept: {n} kcal / day",
-    "refused-text": "You kept {n} kcal for this week.",
-    "error": "Could not save your answer."
+    "explain-fast": "Your average is dropping faster than planned. The target goes up by {delta} kcal. Your protein does not change."
   }
 }

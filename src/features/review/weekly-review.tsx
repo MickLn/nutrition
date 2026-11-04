@@ -27,7 +27,7 @@ export function WeeklyReview({ today = toISODate(new Date()) }: { today?: string
             key={w.start}
             href={`/progres/bilan/?week=${w.start}`}
             label={weekLabel(w.start)}
-            detail={w.state === "proposal" ? t("review.row-proposal") : t("review.row-protein")}
+            detail={t("review.row-protein")}
             value={t("review.row-days", { n: w.proteinDays })}
             chevron
           />

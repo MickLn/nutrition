@@ -1,15 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { BackLink, Label, PageTitle } from "@/components/ui/page";
 import { Row } from "@/components/ui/row";
-import { showToast } from "@/components/ui/toast";
 import { useT } from "@/i18n/use-t";
 import { toISODate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { useWeekLabel } from "./labels";
 import { withinTolerance, type WeekReview } from "./review";
-import { answerWeek, useReview } from "./use-review";
+import { useReview } from "./use-review";
 
 type Fmt = ReturnType<typeof useT>["n"];
 
@@ -42,10 +40,10 @@ export function WeekDetail({ start, today = toISODate(new Date()) }: { start?: s
   const review = useReview(today);
   if (!review) return null;
   const week = start ? review.weeks.find((w) => w.start === start) : review.weeks[0];
-  return <WeekView week={week} today={today} />;
+  return <WeekView week={week} />;
 }
 
-function WeekView({ week, today }: { week: WeekReview | undefined; today: string }) {
+function WeekView({ week }: { week: WeekReview | undefined }) {
   const { t, n } = useT();
   const weekLabel = useWeekLabel();
 
@@ -125,7 +123,7 @@ function WeekView({ week, today }: { week: WeekReview | undefined; today: string
           </Section>
 
           <Section label={t("review.calories")}>
-            <Calories week={week} today={today} />
+            <Calories week={week} />
           </Section>
           <div className="h-10" />
         </>
@@ -134,28 +132,17 @@ function WeekView({ week, today }: { week: WeekReview | undefined; today: string
   );
 }
 
-function Calories({ week, today }: { week: WeekReview; today: string }) {
-  const { t, n, locale } = useT();
-  const { adjustment: adj, state } = week;
-  const changed = adj.delta !== 0 && state !== "refused" && state !== "steady";
-  const delta = n(Math.abs(adj.delta));
+function Calories({ week }: { week: WeekReview }) {
+  const { t, n } = useT();
+  const delta = n(Math.abs(week.kcalAfter - week.kcalTarget));
 
-  const respond = async (status: "accepted" | "refused") => {
-    try {
-      await answerWeek(week, status, today);
-      showToast(status === "accepted" ? t("review.accepted-toast", { n: n(adj.newKcal) }) : t("review.refused-toast", { n: n(week.kcalTarget) }));
-    } catch {
-      showToast(t("review.error"));
-    }
-  };
-
-  if (changed) {
+  if (week.changed) {
     const explanation =
-      adj.reason === "stalled-3w"
+      week.reason === "stalled-3w"
         ? t("review.explain-plateau", { delta })
-        : adj.reason === "too-fast"
+        : week.reason === "too-fast"
           ? t("review.explain-fast", { delta })
-          : t("adjust.floor", { kcal: n(adj.newKcal) });
+          : t("adjust.floor", { kcal: n(week.kcalAfter) });
     return (
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-baseline gap-2">
@@ -163,38 +150,21 @@ function Calories({ week, today }: { week: WeekReview; today: string }) {
           <span className="num text-valeur" aria-hidden>
             ›
           </span>
-          <span className="num text-moyen text-actif">{n(adj.newKcal)}</span>
+          <span className="num text-moyen text-actif">{n(week.kcalAfter)}</span>
           <span className="num text-mono-petit text-texte-discret">{t("review.kcal-day")}</span>
         </div>
         <p className="text-petit">{explanation}</p>
-        {state === "proposal" && (
-          <div className="mt-4 flex flex-col items-stretch gap-1">
-            <Button onClick={() => respond("accepted")}>{t("review.accept", { n: n(adj.newKcal) })}</Button>
-            <Button variant="link" onClick={() => respond("refused")}>
-              {t("review.refuse", { n: n(week.kcalTarget) })}
-            </Button>
-          </div>
-        )}
-        {state === "accepted" && <p className="text-petit text-texte-discret">{t("review.accepted-on", { date: dateLabel(week.record?.at, locale) })}</p>}
       </div>
     );
   }
 
-  const kept = state === "refused" ? week.kcalTarget : adj.newKcal;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline gap-2">
-        <span className="num text-grand tracking-[-0.02em] text-actif">{n(kept)}</span>
+        <span className="num text-grand tracking-[-0.02em] text-actif">{n(week.kcalAfter)}</span>
         <span className="num text-mono-petit text-texte-discret">{t("review.kcal-day-same")}</span>
       </div>
-      {state === "refused" && <p className="text-petit text-texte-discret">{t("review.refused-text", { n: n(week.kcalTarget) })}</p>}
-      {state === "steady" && adj.reason !== "on-track" && <p className="text-petit text-texte-discret">{t(`adjust.${adj.reason}`, { kcal: n(adj.newKcal), delta })}</p>}
+      {week.reason !== "on-track" && <p className="text-petit text-texte-discret">{t(`adjust.${week.reason}`, { kcal: n(week.kcalAfter), delta })}</p>}
     </div>
   );
-}
-
-function dateLabel(iso: string | undefined, locale: string): string {
-  if (!iso) return "";
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "long" }).format(new Date(y, m - 1, d));
 }

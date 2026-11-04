@@ -5,7 +5,7 @@ import { average7, type WeighIn } from "@/engine/weight";
 import { addDays } from "@/lib/dates";
 import type { LogEntry, Water } from "@/lib/db";
 import { sumMacros } from "@/lib/nutrition";
-import { inCooldown, kcalAtWeek, type AdjustmentRecord } from "./adjustments";
+import { kcalAtWeek, type AdjustmentRecord } from "./adjustments";
 
 /** Premier jour (lundi par défaut) de la semaine qui contient `iso`. */
 export function weekStartOf(iso: string): string {
@@ -50,8 +50,6 @@ export function reviewWeeks(data: Pick<ReviewData, "weights">, today: string): s
   return out;
 }
 
-export type WeekState = "proposal" | "accepted" | "refused" | "steady";
-
 export type WeekReview = {
   start: string;
   end: string;
@@ -68,12 +66,14 @@ export type WeekReview = {
   waistDelta: number | null;
   kcalTarget: number;
   proteinTarget: number;
-  adjustment: Adjustment;
-  record: AdjustmentRecord | undefined;
   /** Moyenne du poids stable depuis 3 semaines (écran dédié du Figma). */
   plateau: boolean;
-  /** proposal : changement à accepter ou refuser ; accepted / refused : réponse donnée ; steady : l'objectif reste le même. */
-  state: WeekState;
+  /** Objectif après le bilan (= kcalTarget si rien ne change). */
+  kcalAfter: number;
+  /** Ce que le bilan a changé : vrai si l'objectif a bougé (ajustement automatique déjà enregistré). */
+  changed: boolean;
+  /** Raison de l'ajustement (clé `adjust.*`). */
+  reason: Adjustment["reason"];
 };
 
 /** Moyenne affichée « avec tolérance » : vraie seulement si le réglage est activé et la moyenne dans la marge. */
@@ -82,7 +82,7 @@ export function withinTolerance(avg: number, target: number): boolean {
   return enabled && Math.abs(avg - target) <= target * pct;
 }
 
-export function buildWeek(data: ReviewData, ctx: ReviewContext, start: string, latest: string | undefined): WeekReview {
+export function buildWeek(data: ReviewData, ctx: ReviewContext, start: string): WeekReview {
   const end = weekEndOf(start);
   const inWeek = <T extends { date: string }>(rows: T[]) => rows.filter((r) => r.date >= start && r.date <= end);
 
@@ -101,13 +101,11 @@ export function buildWeek(data: ReviewData, ctx: ReviewContext, start: string, l
   const waistNow = waists.filter((w) => w.date <= end).pop();
   const waistBefore = waists.filter((w) => w.date < start).pop();
 
-  const kcalTarget = kcalAtWeek(ctx.currentKcal, data.records, start);
-  const adjustment = weeklyAdjust({ currentKcal: kcalTarget, sex: ctx.sex, weights: data.weights, today: end, capKcal: ctx.capKcal });
   const record = data.records.find((r) => r.week === start);
-
-  let state: WeekState = "steady";
-  if (record) state = record.status;
-  else if (adjustment.delta !== 0 && start === latest && !inCooldown(data.records, ctx.today)) state = "proposal";
+  const kcalTarget = record?.kcalBefore ?? kcalAtWeek(ctx.currentKcal, data.records, start);
+  const adjustment = weeklyAdjust({ currentKcal: kcalTarget, sex: ctx.sex, weights: data.weights, today: end, capKcal: ctx.capKcal });
+  // L'ajustement est appliqué automatiquement (auto-adjust.ts) : le bilan montre ce qui a été enregistré.
+  const kcalAfter = record ? record.kcalAfter : kcalTarget;
 
   return {
     start,
@@ -123,9 +121,9 @@ export function buildWeek(data: ReviewData, ctx: ReviewContext, start: string, l
     waistDelta: waistNow && waistBefore ? waistNow.cm - waistBefore.cm : null,
     kcalTarget,
     proteinTarget: ctx.proteinG,
-    adjustment,
-    record,
     plateau: adjustment.reason === "stalled-3w",
-    state,
+    kcalAfter,
+    changed: kcalAfter !== kcalTarget,
+    reason: adjustment.reason,
   };
 }
