@@ -2,10 +2,10 @@ import type { Brick, BrickId } from "./types";
 
 /** Allumées par défaut pour MickLn ; « rangées » = prêtes mais pas encore codées. */
 export const BRICKS: readonly Brick[] = [
-  ...(["onboarding", "menus", "batch", "cooked", "protein-suggest", "body", "weekly", "scanner", "water", "health-import"] as const).map(
+  ...(["onboarding", "menus", "batch", "cooked", "protein-suggest", "body", "weekly", "scanner", "water", "health-import", "notion-sync"] as const).map(
     (id) => ({ id, defaultOn: true, shelved: false }),
   ),
-  ...(["goal-modes", "bmi", "week-budget", "micros", "strava", "notion-sync"] as const).map(
+  ...(["goal-modes", "bmi", "week-budget", "micros", "strava"] as const).map(
     (id) => ({ id, defaultOn: false, shelved: true }),
   ),
 ];

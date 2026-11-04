@@ -333,7 +333,20 @@
       "never-copied": "Jamais copié",
       "never-copied-detail": "journal, poids, tour de taille",
       "copy-now": "Copier maintenant",
-      "disconnect": "Déconnecter Notion"
+      "disconnect": "Déconnecter Notion",
+      "code": "Code de la copie",
+      "code-set": "saisi",
+      "code-none": "à saisir",
+      "code-title": "Code de la copie",
+      "code-hint": "Le code NOTION_SYNC_SECRET choisi dans Vercel. Il reste sur ce téléphone.",
+      "code-save": "Enregistrer",
+      "pending": "En attente",
+      "late": "en attente",
+      "done": "Copie terminée",
+      "error-code": "Code refusé. Vérifie-le dans Vercel.",
+      "error-config": "Vercel n'est pas encore configuré pour Notion.",
+      "error-server": "Notion n'a pas répondu. Nouvel essai automatique.",
+      "error-network": "Pas de connexion. Nouvel essai automatique."
     },
     "sources": {
       "title": "Sources",

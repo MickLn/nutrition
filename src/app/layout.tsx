@@ -3,6 +3,7 @@ import { Geist_Mono, Outfit } from "next/font/google";
 import { AppBoot } from "@/components/app-boot";
 import { BottomNav } from "@/components/bottom-nav";
 import { Toaster } from "@/components/ui/toast";
+import { NotionSyncRunner } from "@/features/notion/runner";
 import { themeBootScript } from "@/theme/apply";
 import { AppearanceProvider } from "@/theme/appearance-provider";
 import { brand } from "@/theme/themes";
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Nutrition",
-  description: "Suivi nutritionnel et recettes, 100 % local.",
+  description: "Suivi nutritionnel et recettes, Local d'abord.",
   applicationName: "Nutrition",
   appleWebApp: { capable: true, title: "Nutrition", statusBarStyle: "default" },
   icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh">
         <AppearanceProvider>
           <AppBoot />
+          <NotionSyncRunner />
           <main className="mx-auto max-w-md px-[22px] pt-[max(env(safe-area-inset-top),24px)] pb-[calc(110px+env(safe-area-inset-bottom))]">
             {children}
           </main>
