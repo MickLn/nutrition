@@ -624,5 +624,40 @@
       "sum": "Protéines, glucides, lipides et fibres dépassent 100 g",
       "sugars": "Les sucres dépassent les glucides"
     }
+  },
+  "recipes": {
+    "title": "Recettes",
+    "add": "Ajouter",
+    "tabs-label": "Sections de Recettes",
+    "tabs": {
+      "plats": "Plats",
+      "menus": "Menus",
+      "produits": "Produits"
+    },
+    "search": "Chercher un plat, un menu",
+    "search-products": "Chercher",
+    "sort-label": "Trier",
+    "sort": {
+      "recent": "Récents",
+      "az": "A à Z",
+      "fav": "Favoris"
+    },
+    "add-sheet": {
+      "title": "Ajouter dans Recettes",
+      "dish": "Un plat",
+      "dish-detail": "Fait maison, pour un repas ou plusieurs jours",
+      "menu": "Un menu",
+      "menu-detail": "Plusieurs aliments mangés ensemble"
+    }
+  },
+  "products": {
+    "empty": "Aucun produit pour l’instant.",
+    "scan": "Scanner un produit",
+    "manual": "Saisir à la main",
+    "detail": "{g} g, {kcal} kcal",
+    "no-result": "Aucun produit ne correspond.",
+    "no-favorite": "Aucun favori pour l’instant.",
+    "index": "Index alphabétique",
+    "jump": "Aller à la lettre {letter}"
   }
 }

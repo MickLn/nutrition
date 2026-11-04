@@ -624,5 +624,40 @@
       "sum": "Protein, carbs, fat and fibre add up to more than 100 g",
       "sugars": "Sugars are higher than carbs"
     }
+  },
+  "recipes": {
+    "title": "Recipes",
+    "add": "Add",
+    "tabs-label": "Recipe sections",
+    "tabs": {
+      "plats": "Dishes",
+      "menus": "Menus",
+      "produits": "Products"
+    },
+    "search": "Search a dish, a menu",
+    "search-products": "Search",
+    "sort-label": "Sort",
+    "sort": {
+      "recent": "Recent",
+      "az": "A to Z",
+      "fav": "Favourites"
+    },
+    "add-sheet": {
+      "title": "Add to Recipes",
+      "dish": "A dish",
+      "dish-detail": "Homemade, for one meal or several days",
+      "menu": "A menu",
+      "menu-detail": "Several foods eaten together"
+    }
+  },
+  "products": {
+    "empty": "No products yet.",
+    "scan": "Scan a product",
+    "manual": "Enter by hand",
+    "detail": "{g} g, {kcal} kcal",
+    "no-result": "No matching product.",
+    "no-favorite": "No favourites yet.",
+    "index": "Alphabetical index",
+    "jump": "Go to letter {letter}"
   }
 }
