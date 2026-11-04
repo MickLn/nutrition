@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { FoodSearch } from "@/features/add/food-search";
+import { usePresetFood } from "@/features/food-sheet/load";
 import { MealPicker } from "@/features/add/meal-picker";
 import { WeighRow, type Weighed } from "@/features/add/weigh-list";
 import { addEntries, nowHHMM } from "@/features/journal/journal";
+import { scannerHref } from "@/features/scanner/links";
 import { ScanButton } from "@/features/scanner/scan-button";
 import { mealFromTime } from "@/engine/entry";
 import { useT } from "@/i18n/use-t";
@@ -35,6 +37,14 @@ function AddFlow() {
   const [meal, setMeal] = useState<Meal>(asked && MEALS.includes(asked) ? (asked as Meal) : mealFromTime(nowHHMM()));
   const [items, setItems] = useState<Weighed[]>([]);
   const [step, setStep] = useState<"search" | "weigh">("search");
+  // « ?food=<id> » (aliment tout juste créé) : on arrive à la pesée avec cet aliment choisi.
+  const preset = usePresetFood(params.get("food"));
+  const [presetDone, setPresetDone] = useState(false);
+  if (preset && !presetDone) {
+    setPresetDone(true);
+    setItems([{ food: preset, grams: null }]);
+    setStep("weigh");
+  }
 
   const toggle = (food: Weighed["food"]) =>
     setItems((xs) => (xs.some((x) => x.food.id === food.id) ? xs.filter((x) => x.food.id !== food.id) : [...xs, { food, grams: null }]));
@@ -63,7 +73,13 @@ function AddFlow() {
 
       <div className="mt-3.5">
         {step === "search" ? (
-          <FoodSearch selected={items.map((i) => i.food)} onToggle={toggle} action={<ScanButton date={params.get("date")} meal={meal} />} />
+          <FoodSearch selected={items.map((i) => i.food)} onToggle={toggle} action={<ScanButton date={params.get("date")} meal={meal} />}
+            noResultActions={
+              <Link href={scannerHref({ date: params.get("date"), meal })} className={buttonVariants({ variant: "secondary", className: "w-full" })}>
+                {t("scanner.open")}
+              </Link>
+            }
+          />
         ) : (
           <>
             {items.map((it) => (
