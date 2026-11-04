@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import type { LogEntry, Meal } from "@/lib/db";
+import { MealMenus } from "@/features/menus/meal-menus";
 import { useT } from "@/i18n/use-t";
 import { entryMacros, sumMacros } from "@/lib/nutrition";
 
@@ -68,6 +69,7 @@ export function MealSection({
               {t("day.copy-yesterday")}
             </button>
           )}
+          <MealMenus date={date} meal={meal} />
         </div>
       )}
     </section>
