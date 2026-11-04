@@ -9,6 +9,7 @@ import { usePresetFood } from "@/features/food-sheet/load";
 import { MealPicker } from "@/features/add/meal-picker";
 import { WeighRow, type Weighed } from "@/features/add/weigh-list";
 import { addEntries, nowHHMM } from "@/features/journal/journal";
+import { offerSaveAsDish } from "@/features/recipes/offer";
 import { scannerHref } from "@/features/scanner/links";
 import { ScanButton } from "@/features/scanner/scan-button";
 import { mealFromTime } from "@/engine/entry";
@@ -104,7 +105,8 @@ function AddFlow() {
               className="w-full"
               disabled={!ready}
               onClick={async () => {
-                await addEntries(date, meal, items.filter((i) => i.grams).map((i) => ({ food: i.food, grams: i.grams! })));
+                const rows = await addEntries(date, meal, items.filter((i) => i.grams).map((i) => ({ food: i.food, grams: i.grams! })));
+                void offerSaveAsDish(rows, { t, open: router.push });
                 router.push("/");
               }}
             >
