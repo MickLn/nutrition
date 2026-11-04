@@ -906,6 +906,8 @@
     "url": "Shortcut address",
     "url-detail": "to paste into the Shortcut",
     "copy": "Copy",
-    "copied": "Address copied"
+    "copied": "Address copied",
+    "error-off": "Automatic import is off: nothing was saved.",
+    "error-off-note": "Turn on “Automatic import” in Settings › Weight and Apple Health, then run the Shortcut again."
   }
 }

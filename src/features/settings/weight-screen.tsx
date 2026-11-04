@@ -18,7 +18,7 @@ import { HEALTH_AUTO_IMPORT_KEY, setSetting, useSetting, useSettingsFormat } fro
 /**
  * Écran Réglages › Poids et Apple Santé (Figma 90:1991).
  * Import Apple Santé : un Raccourci iPhone ouvre /sante/#kg=…&date=… ; rien ne quitte le téléphone.
- * L'interrupteur sert seulement à afficher « chaque matin » : l'automatisation se règle dans l'app Raccourcis.
+ * L'interrupteur autorise l'import (éteint : /sante/ n'enregistre rien) ; l'heure se règle dans l'app Raccourcis.
  */
 export function WeightScreen() {
   const { t, n } = useT();

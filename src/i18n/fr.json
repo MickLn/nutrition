@@ -906,6 +906,8 @@
     "url": "Adresse du Raccourci",
     "url-detail": "à coller dans le Raccourci",
     "copy": "Copier",
-    "copied": "Adresse copiée"
+    "copied": "Adresse copiée",
+    "error-off": "L’import automatique est éteint : rien n’a été enregistré.",
+    "error-off-note": "Allume « Import automatique » dans Réglages › Poids et Apple Santé, puis relance le Raccourci."
   }
 }
