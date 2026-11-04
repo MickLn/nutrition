@@ -4,14 +4,16 @@ import { BackLink, PageTitle } from "@/components/ui/page";
 import { Row } from "@/components/ui/row";
 import { useT } from "@/i18n/use-t";
 import { useAppearance } from "@/theme/appearance-provider";
-import { GOAL_WEIGHT_KEY, HEALTH_AUTO_IMPORT_KEY, useBackupState, useSetting, useSettingsFormat } from "./settings";
+import { useProfile } from "@/features/profile/profile";
+import { HEALTH_AUTO_IMPORT_KEY, useBackupState, useSetting, useSettingsFormat } from "./settings";
 
 /** Écran Moi › Réglages (Figma 12:851). */
 export function SettingsHome() {
   const { t, n } = useT();
   const f = useSettingsFormat();
   const { appearance } = useAppearance();
-  const goalKg = useSetting<number>(GOAL_WEIGHT_KEY);
+  // Le poids objectif est rangé dans le profil (brique Objectif).
+  const goalKg = useProfile()?.goalKg;
   const healthAuto = useSetting<boolean>(HEALTH_AUTO_IMPORT_KEY);
   const { last } = useBackupState();
 

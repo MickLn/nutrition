@@ -7,11 +7,6 @@ import { BACKUP_INTERVAL_KEY, DEFAULT_BACKUP_INTERVAL_DAYS, LAST_BACKUP_KEY } fr
 import { db } from "@/lib/db";
 import { daysBetween, elapsed, size } from "./format";
 
-/**
- * Poids objectif (kg), affiché en face de « Objectif et calcul ».
- * À ranger ici par l'écran Objectif ; tant qu'il n'existe pas, la ligne n'affiche pas de valeur.
- */
-export const GOAL_WEIGHT_KEY = "goalWeightKg";
 /** Import automatique des pesées depuis Apple Santé (lot 5). */
 export const HEALTH_AUTO_IMPORT_KEY = "healthAutoImport";
 
