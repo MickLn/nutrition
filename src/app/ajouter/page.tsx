@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FoodSearch } from "@/features/add/food-search";
+import { usePresetFood } from "@/features/food-sheet/load";
 import { MealPicker } from "@/features/add/meal-picker";
 import { WeighRow, type Weighed } from "@/features/add/weigh-list";
 import { addEntries, nowHHMM } from "@/features/journal/journal";
@@ -34,6 +35,14 @@ function AddFlow() {
   const [meal, setMeal] = useState<Meal>(asked && MEALS.includes(asked) ? (asked as Meal) : mealFromTime(nowHHMM()));
   const [items, setItems] = useState<Weighed[]>([]);
   const [step, setStep] = useState<"search" | "weigh">("search");
+  // « ?food=<id> » (aliment tout juste créé) : on arrive à la pesée avec cet aliment choisi.
+  const preset = usePresetFood(params.get("food"));
+  const [presetDone, setPresetDone] = useState(false);
+  if (preset && !presetDone) {
+    setPresetDone(true);
+    setItems([{ food: preset, grams: null }]);
+    setStep("weigh");
+  }
 
   const toggle = (food: Weighed["food"]) =>
     setItems((xs) => (xs.some((x) => x.food.id === food.id) ? xs.filter((x) => x.food.id !== food.id) : [...xs, { food, grams: null }]));
