@@ -90,11 +90,13 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* iOS zoome sur les champs < 16px. */
-input,
-select,
-textarea {
-  font-size: 16px;
+/* iOS zoome sur les champs < 16px. Dans la couche « base » : une classe de taille (text-grand) doit pouvoir l'emporter. */
+@layer base {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 /* Mono/Libellé : petites capitales espacées (PROTÉINES, DÉJEUNER…). */
