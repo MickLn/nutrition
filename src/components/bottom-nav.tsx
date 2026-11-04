@@ -1,5 +1,6 @@
 "use client";
 
+import { UI } from "@/config/ui";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useT } from "@/i18n/use-t";
@@ -20,7 +21,7 @@ export function BottomNav() {
   const pathname = normalize(usePathname() ?? "/");
   const { t } = useT();
   // Les écrans de saisie ont leur propre bouton en bas : la barre se cache.
-  if (pathname.startsWith("/ajouter/") || pathname.startsWith("/bienvenue/")) return null;
+  if (UI.navHiddenOn.some((p) => pathname.startsWith(p))) return null;
   return (
     <nav aria-label={t("nav.main")} className="fixed inset-x-0 bottom-0 z-40 bg-fond pb-[max(env(safe-area-inset-bottom),16px)] pt-[11px]">
       <ul className="mx-auto flex max-w-md items-center px-[14px]">
