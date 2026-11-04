@@ -1,0 +1,35 @@
+{
+  "adjust": {
+    "not-enough-data": "Pas assez de pesées pour ajuster (il faut 2 semaines).",
+    "on-track": "Ta perte suit l'objectif : rien ne change.",
+    "stalled-2w": "Poids stable depuis 2 semaines : on attend encore une semaine.",
+    "stalled-3w": "Poids stable depuis 3 semaines : objectif baissé de {delta} kcal.",
+    "too-fast": "Perte plus rapide que prévu : objectif monté de {delta} kcal.",
+    "floor": "Objectif bloqué au plancher de {kcal} kcal."
+  },
+  "errors": {
+    "batch.cooked-weight-missing": "Pèse le plat cuit entier pour calculer ta part.",
+    "cooked.weighing-invalid": "Entre un poids cru et un poids cuit."
+  },
+  "bricks": {
+    "menus": "Menus",
+    "batch": "Plats en lot",
+    "cooked": "Aliment pesé cuit",
+    "protein-suggest": "Suggestions de protéines",
+    "body": "Poids et tour de taille",
+    "weekly": "Bilan de la semaine",
+    "scanner": "Scanner",
+    "water": "Eau",
+    "health-import": "Poids depuis Apple Santé",
+    "goal-modes": "Maintenir et prendre",
+    "bmi": "Conseils IMC",
+    "onboarding": "Première ouverture",
+    "week-budget": "Budget de la semaine",
+    "micros": "Micronutriments",
+    "strava": "Strava",
+    "notion-sync": "Copie vers Notion"
+  },
+  "meals": { "breakfast": "Petit-déjeuner", "lunch": "Déjeuner", "dinner": "Dîner", "snack": "Collation" },
+  "entry": { "quantity-check": "Vérifie la quantité ?" },
+  "cooked": { "product-weighing": "Ta pesée", "base-weighing": "Ta pesée", "ciqual-cooked": "CIQUAL" }
+}

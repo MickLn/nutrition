@@ -1,0 +1,35 @@
+{
+  "adjust": {
+    "not-enough-data": "Not enough weigh-ins to adjust yet (2 weeks needed).",
+    "on-track": "Your loss is on target: nothing changes.",
+    "stalled-2w": "Weight steady for 2 weeks: waiting one more week.",
+    "stalled-3w": "Weight steady for 3 weeks: target lowered by {delta} kcal.",
+    "too-fast": "Losing faster than planned: target raised by {delta} kcal.",
+    "floor": "Target held at the {kcal} kcal floor."
+  },
+  "errors": {
+    "batch.cooked-weight-missing": "Weigh the whole cooked dish to work out your portion.",
+    "cooked.weighing-invalid": "Enter a raw weight and a cooked weight."
+  },
+  "bricks": {
+    "menus": "Menus",
+    "batch": "Batch dishes",
+    "cooked": "Weighed cooked food",
+    "protein-suggest": "Protein suggestions",
+    "body": "Weight and waist",
+    "weekly": "Weekly review",
+    "scanner": "Scanner",
+    "water": "Water",
+    "health-import": "Weight from Apple Health",
+    "goal-modes": "Maintain and gain",
+    "bmi": "BMI tips",
+    "onboarding": "First launch",
+    "week-budget": "Weekly budget",
+    "micros": "Micronutrients",
+    "strava": "Strava",
+    "notion-sync": "Copy to Notion"
+  },
+  "meals": { "breakfast": "Breakfast", "lunch": "Lunch", "dinner": "Dinner", "snack": "Snack" },
+  "entry": { "quantity-check": "Check the amount?" },
+  "cooked": { "product-weighing": "Your weighing", "base-weighing": "Your weighing", "ciqual-cooked": "CIQUAL" }
+}
