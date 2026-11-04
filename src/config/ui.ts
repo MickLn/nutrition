@@ -14,4 +14,6 @@ export const UI = {
   searchLimit: 30,
   /** Poids accepté à la saisie, en kg (évite une faute de frappe). */
   weightKg: { min: 25, max: 350 },
+  /** Pages sans barre du bas (écrans de saisie et pages détail, comme dans le Figma). */
+  navHiddenOn: ["/ajouter/", "/bienvenue/", "/aliment/", "/recettes/plat/", "/recettes/lot/", "/recettes/part/", "/recettes/menu/"] as string[],
 } as const;
