@@ -24,8 +24,9 @@ test("plancher de lipides à 0,5 g/kg", () => {
 test("glucides = reste ÷ 4, jamais négatifs", () => {
   expect(macrosFor(800, me, 120).carbs).toBe(0);
 });
-test("le profil refuse des protéines hors 1,6 à 2,2 g/kg", () => {
+test("le profil accepte des protéines changées à la main (avertissement) mais refuse au-delà de 3,5 g/kg", () => {
   expect(profileSchema.safeParse(me).success).toBe(true);
-  expect(profileSchema.safeParse({ ...me, proteinGPerKg: 2.5 }).success).toBe(false);
+  expect(profileSchema.safeParse({ ...me, proteinGPerKg: 2.6 }).success).toBe(true);
+  expect(profileSchema.safeParse({ ...me, proteinGPerKg: 3.6 }).success).toBe(false);
   expect(profileSchema.safeParse({ ...me, activity: 1.3 }).success).toBe(false);
 });

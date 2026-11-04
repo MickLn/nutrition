@@ -18,11 +18,17 @@ export async function loadProfile(): Promise<Profile> {
   return parseProfile((await db.settings.get(PROFILE_KEY))?.value);
 }
 
-/** Enregistre une partie du profil. Basculer Musculation remet les défauts protéines / lipides liés. */
+/**
+ * Enregistre une partie du profil. Basculer Musculation remet les défauts protéines / lipides liés.
+ * Un profil invalide n'est jamais écrit (il serait relu comme le profil par défaut) : l'appel échoue.
+ */
 export async function saveProfile(patch: Partial<Profile>): Promise<Profile> {
   const current = await loadProfile();
   const strengthChanged = patch.strength !== undefined && patch.strength !== current.strength;
   const next = { ...current, ...(strengthChanged ? STRENGTH_DEFAULTS[patch.strength ? "on" : "off"] : {}), ...patch };
+  // Une clé passée à undefined (ex. goalDate pour revenir à « Aucun ») est retirée.
+  for (const k of Object.keys(next) as (keyof Profile)[]) if (next[k] === undefined) delete next[k];
+  if (!profileSchema.safeParse(next).success) throw new Error("profile.invalid");
   await db.settings.put({ key: PROFILE_KEY, value: next });
   return next;
 }
