@@ -137,5 +137,118 @@
     "none": "No backup yet",
     "since": "Last backup {n} days ago",
     "save": "Back up"
+  },
+  "settings": {
+    "title": "Settings",
+    "back-me": "Me",
+    "back": "Settings",
+    "soon": "Coming soon",
+    "never": "never",
+    "kg": "{n} kg",
+    "rows": {
+      "goal": "Goal and calculation",
+      "weight": "Weight and Apple Health",
+      "appearance": "Appearance",
+      "backup": "Backup",
+      "notion": "Copy to Notion",
+      "sources": "Calculation sources"
+    },
+    "every-morning": "every morning",
+    "ago": {
+      "now": "just now",
+      "min": "{n} min ago",
+      "h": "{n} h ago",
+      "day-one": "{n} day ago",
+      "day-other": "{n} days ago"
+    },
+    "day": {
+      "today": "today",
+      "yesterday": "yesterday"
+    },
+    "size": {
+      "ko": "{n} KB",
+      "mo": "{n} MB",
+      "go": "{n} GB"
+    },
+    "mode": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "Same as iPhone"
+    },
+    "backup": {
+      "title": "Backup",
+      "last": "Last backup",
+      "reminder": "Reminder",
+      "every-one": "every day",
+      "every-other": "every {n} days",
+      "used": "Space used",
+      "export": "Export",
+      "import": "Import",
+      "exported": "Backup created",
+      "export-failed": "Backup failed",
+      "invalid": "This file is not a backup the app can read",
+      "import-title": "Import this backup?",
+      "import-warning": "Replacing erases all the data on this phone.",
+      "replace": "Replace my data",
+      "merge": "Merge with my data",
+      "cancel": "Cancel",
+      "replaced": "Data replaced",
+      "merged": "Backup merged",
+      "import-failed": "Import failed, nothing was changed",
+      "count": {
+        "logEntries-one": "{n} log entry",
+        "logEntries-other": "{n} log entries",
+        "foods-one": "{n} food",
+        "foods-other": "{n} foods",
+        "recipes-one": "{n} recipe",
+        "recipes-other": "{n} recipes",
+        "weights-one": "{n} weigh-in",
+        "weights-other": "{n} weigh-ins",
+        "images-one": "{n} photo",
+        "images-other": "{n} photos"
+      }
+    },
+    "weight": {
+      "title": "Weight and Apple Health",
+      "auto": "Automatic import",
+      "last": "Last weight received",
+      "last-value": "{kg} kg, {when}",
+      "shortcut": "iOS Shortcut",
+      "secret": "Secret code",
+      "secret-detail": "to paste into the Shortcut",
+      "manual": "Log weight by hand"
+    },
+    "notion": {
+      "title": "Copy to Notion",
+      "auto": "Automatic copy",
+      "last": "Last copy",
+      "copied": "Copied",
+      "copied-detail": "foods, products, dishes, menus",
+      "never-copied": "Never copied",
+      "never-copied-detail": "log, weight, waist",
+      "copy-now": "Copy now",
+      "disconnect": "Disconnect Notion"
+    },
+    "sources": {
+      "title": "Sources",
+      "consulted": "Accessed on {date}.",
+      "bmr": "Resting metabolism",
+      "bmr-detail": "Mifflin-St Jeor, 1990",
+      "pace": "Rate of loss",
+      "pace-detail": "Garthe 2011, Helms 2014",
+      "floor": "Calorie minimum",
+      "floor-detail": "AHA/ACC/TOS 2013",
+      "protein": "Protein",
+      "protein-detail": "Morton 2018, ANSES 2007",
+      "fat": "Fat",
+      "fat-detail": "Helms 2014, ANSES",
+      "fiber": "Fibre",
+      "fiber-detail": "ANSES",
+      "foods": "Foods",
+      "foods-detail": "CIQUAL 2025 (ANSES), Open Food Facts",
+      "activity": "Activity factors",
+      "cap": "Adjustment cap",
+      "weeks": "2-then-3-week rule"
+    }
   }
 }

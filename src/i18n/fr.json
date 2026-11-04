@@ -137,5 +137,118 @@
     "none": "Aucune sauvegarde pour l'instant",
     "since": "Dernière sauvegarde il y a {n} jours",
     "save": "Sauvegarder"
+  },
+  "settings": {
+    "title": "Réglages",
+    "back-me": "Moi",
+    "back": "Réglages",
+    "soon": "Bientôt",
+    "never": "jamais",
+    "kg": "{n} kg",
+    "rows": {
+      "goal": "Objectif et calcul",
+      "weight": "Poids et Apple Santé",
+      "appearance": "Apparence",
+      "backup": "Sauvegarde",
+      "notion": "Copie vers Notion",
+      "sources": "Sources des calculs"
+    },
+    "every-morning": "chaque matin",
+    "ago": {
+      "now": "à l'instant",
+      "min": "il y a {n} min",
+      "h": "il y a {n} h",
+      "day-one": "il y a {n} jour",
+      "day-other": "il y a {n} jours"
+    },
+    "day": {
+      "today": "aujourd'hui",
+      "yesterday": "hier"
+    },
+    "size": {
+      "ko": "{n} ko",
+      "mo": "{n} Mo",
+      "go": "{n} Go"
+    },
+    "mode": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Comme l’iPhone"
+    },
+    "backup": {
+      "title": "Sauvegarde",
+      "last": "Dernière sauvegarde",
+      "reminder": "Rappel",
+      "every-one": "tous les jours",
+      "every-other": "tous les {n} jours",
+      "used": "Place utilisée",
+      "export": "Exporter",
+      "import": "Importer",
+      "exported": "Sauvegarde créée",
+      "export-failed": "La sauvegarde a échoué",
+      "invalid": "Ce fichier n'est pas une sauvegarde lisible par l'app",
+      "import-title": "Importer cette sauvegarde ?",
+      "import-warning": "Remplacer efface toutes les données de ce téléphone.",
+      "replace": "Remplacer mes données",
+      "merge": "Fusionner avec mes données",
+      "cancel": "Annuler",
+      "replaced": "Données remplacées",
+      "merged": "Sauvegarde fusionnée",
+      "import-failed": "L'import a échoué, rien n'a été modifié",
+      "count": {
+        "logEntries-one": "{n} entrée du journal",
+        "logEntries-other": "{n} entrées du journal",
+        "foods-one": "{n} aliment",
+        "foods-other": "{n} aliments",
+        "recipes-one": "{n} recette",
+        "recipes-other": "{n} recettes",
+        "weights-one": "{n} pesée",
+        "weights-other": "{n} pesées",
+        "images-one": "{n} photo",
+        "images-other": "{n} photos"
+      }
+    },
+    "weight": {
+      "title": "Poids et Apple Santé",
+      "auto": "Import automatique",
+      "last": "Dernier poids reçu",
+      "last-value": "{kg} kg, {when}",
+      "shortcut": "Raccourci iOS",
+      "secret": "Code secret",
+      "secret-detail": "à coller dans le Raccourci",
+      "manual": "Noter le poids à la main"
+    },
+    "notion": {
+      "title": "Copie vers Notion",
+      "auto": "Copie automatique",
+      "last": "Dernière copie",
+      "copied": "Copié",
+      "copied-detail": "aliments, produits, plats, menus",
+      "never-copied": "Jamais copié",
+      "never-copied-detail": "journal, poids, tour de taille",
+      "copy-now": "Copier maintenant",
+      "disconnect": "Déconnecter Notion"
+    },
+    "sources": {
+      "title": "Sources",
+      "consulted": "Consultées le {date}.",
+      "bmr": "Métabolisme au repos",
+      "bmr-detail": "Mifflin-St Jeor, 1990",
+      "pace": "Rythme de perte",
+      "pace-detail": "Garthe 2011, Helms 2014",
+      "floor": "Minimum de calories",
+      "floor-detail": "AHA/ACC/TOS 2013",
+      "protein": "Protéines",
+      "protein-detail": "Morton 2018, ANSES 2007",
+      "fat": "Lipides",
+      "fat-detail": "Helms 2014, ANSES",
+      "fiber": "Fibres",
+      "fiber-detail": "ANSES",
+      "foods": "Aliments",
+      "foods-detail": "CIQUAL 2025 (ANSES), Open Food Facts",
+      "activity": "Coefficients d’activité",
+      "cap": "Plafond d’ajustement",
+      "weeks": "Règle des 2 puis 3 semaines"
+    }
   }
 }
