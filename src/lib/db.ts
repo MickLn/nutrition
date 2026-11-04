@@ -37,10 +37,18 @@ export type Recipe = {
   name: string;
   /** « recipe » : plat classique ; « batch » : plat cuisiné en grande quantité, on soustrait ce qui est mangé. */
   kind: "recipe" | "batch";
-  ingredients: { foodId: string; grams: number }[];
+  /**
+   * Ingrédients pesés crus. `name` et `per100g` (facultatifs, non indexés) sont une copie prise à l'enregistrement :
+   * le plat garde ses valeurs même si l'aliment est supprimé ou change.
+   */
+  ingredients: { foodId: string; grams: number; name?: string; per100g?: Macros & { fiber: number } }[];
   cookedWeightG?: number;
   remainingG?: number;
   finishedAt?: number;
+  /** Date où le plat a été cuisiné (« cuisiné dimanche »). Non indexé. */
+  cookedAt?: number;
+  /** Plat mis en favori (filtre « Favoris » de Recettes). Non indexé. */
+  favorite?: boolean;
   servings: number;
   updatedAt: number;
 };

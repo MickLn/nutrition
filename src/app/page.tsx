@@ -10,6 +10,7 @@ import { useProfile } from "@/features/profile/profile";
 import { WeightBlock } from "@/features/body/weight-block";
 import { DaySummary } from "@/features/day/day-summary";
 import { MealSection } from "@/features/day/meal-section";
+import { ToFinish } from "@/features/recipes/to-finish";
 import { EditEntrySheet } from "@/features/journal/edit-entry-sheet";
 import { copyYesterday, hasDataBefore } from "@/features/journal/journal";
 import { WaterBlock } from "@/features/water/water-block";
@@ -88,6 +89,7 @@ export default function DayPage() {
         </div>
       )}
       {!on("body") && weightOpen && <WeightBlock body={body} today={today} open={weightOpen} setOpen={setWeightOpen} />}
+      {on("batch") && date === today && <ToFinish />}
 
       <BackupReminder />
 

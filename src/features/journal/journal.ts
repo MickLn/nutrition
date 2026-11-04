@@ -5,17 +5,25 @@ import type { FoodItem } from "@/features/foods/types";
 const uid = () => crypto.randomUUID();
 export const nowHHMM = (d = new Date()) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 
-/** Ajoute plusieurs aliments d'un coup au même repas. Renvoie les entrées créées. */
-export async function addEntries(date: string, meal: Meal, items: { food: FoodItem; grams: number }[], time = nowHHMM()) {
+/**
+ * Ajoute plusieurs aliments d'un coup au même repas. Renvoie les entrées créées.
+ * `refType: "recipe"` : une part d'un plat (`food.id` = id du plat, `food.per100g` = ses valeurs pour 100 g cuits).
+ */
+export async function addEntries(
+  date: string,
+  meal: Meal,
+  items: { food: FoodItem; grams: number; refType?: LogEntry["refType"] }[],
+  time = nowHHMM(),
+) {
   const now = Date.now();
   const rows: LogEntry[] = items
     .filter((i) => i.grams > 0)
-    .map(({ food, grams }) => ({
+    .map(({ food, grams, refType = "food" }) => ({
       id: uid(),
       date,
       time,
       meal,
-      refType: "food",
+      refType,
       refId: food.id,
       name: food.name,
       grams,
@@ -60,7 +68,8 @@ export async function recentFoods(limit: number): Promise<FoodItem[]> {
   const seen = new Set<string>();
   const out: FoodItem[] = [];
   for (const r of rows) {
-    if (seen.has(r.refId)) continue;
+    // Une part de plat n'est pas un aliment : elle se pèse depuis le plat (le reste d'un plat en lot doit baisser).
+    if (r.refType === "recipe" || seen.has(r.refId)) continue;
     seen.add(r.refId);
     out.push({ id: r.refId, name: r.name, per100g: r.snapshot, portions: [], lastGrams: r.grams });
     if (out.length >= limit) break;
