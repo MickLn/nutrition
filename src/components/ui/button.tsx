@@ -6,10 +6,10 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "min-h-[52px] bg-signal text-corps text-sur-signal",
-        secondary: "min-h-[52px] border border-trait text-corps text-texte",
+        primary: "min-h-[52px] w-full bg-signal text-corps text-sur-signal",
+        secondary: "min-h-[52px] border-[1.5px] border-texte text-corps font-normal text-texte",
         ghost: "text-texte hover:bg-piste",
-        link: "min-h-0 px-0 text-actif underline-offset-4 hover:underline",
+        link: "min-h-8 text-corps font-normal text-actif underline",
       },
       size: {
         md: "",
