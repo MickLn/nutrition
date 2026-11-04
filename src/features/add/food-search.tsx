@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 type SearchFn = Awaited<ReturnType<typeof loadSearch>>;
 
 /** Recherche (récents d'abord) avec sélection multiple. */
-export function FoodSearch({ selected, onToggle }: { selected: FoodItem[]; onToggle: (f: FoodItem) => void }) {
+export function FoodSearch({ selected, onToggle, action }: { selected: FoodItem[]; onToggle: (f: FoodItem) => void; /** Bouton à droite du champ (scanner). */ action?: React.ReactNode }) {
   const { t, n, lang } = useT();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState<SearchFn | null>(null);
@@ -36,18 +36,21 @@ export function FoodSearch({ selected, onToggle }: { selected: FoodItem[]; onTog
   return (
     <div>
       {/* Composant « Recherche » du Figma : Geist Mono majuscules, ligne Klein dessous, sans loupe ; le texte tapé est en Outfit. */}
-      <label className="flex h-11 items-center border-b-2 border-actif">
-        <span className="sr-only">{t("add.search")}</span>
-        <input
-          type="search"
-          enterKeyHint="search"
-          autoFocus
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("add.search")}
-          className="w-full bg-transparent text-corps outline-none placeholder:font-mono placeholder:text-valeur placeholder:uppercase placeholder:tracking-[0.04em] placeholder:text-texte-discret"
-        />
-      </label>
+      <div className="flex items-center gap-2.5">
+        <label className="flex h-11 min-w-0 flex-1 items-center border-b-2 border-actif">
+          <span className="sr-only">{t("add.search")}</span>
+          <input
+            type="search"
+            enterKeyHint="search"
+            autoFocus
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("add.search")}
+            className="w-full bg-transparent text-corps outline-none placeholder:font-mono placeholder:text-valeur placeholder:uppercase placeholder:tracking-[0.04em] placeholder:text-texte-discret"
+          />
+        </label>
+        {action}
+      </div>
 
       <h2 className="libelle mt-[22px]">{q ? t("add.results") : t("add.recents")}</h2>
       {q && !search && <p className="mt-2 text-petit text-texte-discret">{failed ? t("add.none") : t("add.loading")}</p>}

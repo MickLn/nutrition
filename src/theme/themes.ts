@@ -26,6 +26,7 @@ export const TOKEN_NAMES = [
   "sur-signal",
   "eau",
   "voile",
+  "camera",
 ] as const;
 
 export type TokenName = (typeof TOKEN_NAMES)[number];
@@ -65,6 +66,8 @@ export const papierSignal: Theme = {
     "sur-signal": brand.carbon,
     eau: alpha(brand.klein, 0.6),
     voile: alpha(brand.carbon, 0.4),
+    // Fond du cadre de la caméra (scanner) avant que l'image n'arrive.
+    camera: brand.carbon,
   },
   dark: {
     fond: brand.carbon,
@@ -78,6 +81,7 @@ export const papierSignal: Theme = {
     "sur-signal": brand.carbon,
     eau: alpha(brand.kleinDark, 0.6),
     voile: alpha(brand.carbon, 0.6),
+    camera: brand.carbon,
   },
 };
 
