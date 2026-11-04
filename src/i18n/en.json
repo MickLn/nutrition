@@ -119,7 +119,27 @@
   "cooked": {
     "product-weighing": "Your weighing",
     "base-weighing": "Your weighing",
-    "ciqual-cooked": "CIQUAL"
+    "ciqual-cooked": "CIQUAL",
+    "state": "Weighed raw or cooked",
+    "weighed-raw": "Weighed raw",
+    "weighed-cooked": "Weighed cooked",
+    "cooked-grams": "Cooked weight in grams",
+    "per-100-cooked": "Per 100 g cooked",
+    "detail-ciqual": "{source}, {name}",
+    "detail-weighing": "Your weighing ×{y}",
+    "no-source": "No cooked value. Weigh it yourself",
+    "none": "–",
+    "entry-name": "{name}, weighed cooked",
+    "my-weighing": "My weighing",
+    "back": "Back",
+    "base-food": "Base food",
+    "product": "Product",
+    "raw-weight": "Raw weight",
+    "cooked-weight": "Cooked weight",
+    "your-yield": "Your yield",
+    "yield-value": "×{y}",
+    "save-weighing": "Save my weighing",
+    "save-failed": "Weighing not saved. Try again."
   },
   "meals-from": {
     "breakfast": "from breakfast",

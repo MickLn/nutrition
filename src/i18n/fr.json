@@ -119,7 +119,27 @@
   "cooked": {
     "product-weighing": "Ta pesée",
     "base-weighing": "Ta pesée",
-    "ciqual-cooked": "CIQUAL"
+    "ciqual-cooked": "CIQUAL",
+    "state": "Pesé cru ou cuit",
+    "weighed-raw": "Pesé cru",
+    "weighed-cooked": "Pesé cuit",
+    "cooked-grams": "Poids cuit en grammes",
+    "per-100-cooked": "Pour 100 g cuits",
+    "detail-ciqual": "{source}, {name}",
+    "detail-weighing": "Ta pesée ×{y}",
+    "no-source": "Pas de valeur cuite. Fais ta pesée",
+    "none": "–",
+    "entry-name": "{name}, pesé cuit",
+    "my-weighing": "Ma pesée",
+    "back": "Retour",
+    "base-food": "Aliment de base",
+    "product": "Produit",
+    "raw-weight": "Poids cru",
+    "cooked-weight": "Poids cuit",
+    "your-yield": "Ton rendement",
+    "yield-value": "×{y}",
+    "save-weighing": "Enregistrer ma pesée",
+    "save-failed": "Pesée non enregistrée. Réessaie."
   },
   "meals-from": {
     "breakfast": "du petit-déjeuner",

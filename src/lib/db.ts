@@ -25,6 +25,8 @@ export type Food = {
   imageUrl?: string;
   /** Photo prise par l'utilisateur (table images). */
   imageId?: string;
+  /** « Ma pesée » : rendement cru → cuit mesuré sur ce produit (poids cuit ÷ poids cru). Non indexé. */
+  cookedYield?: number;
   updatedAt: number;
 };
 
