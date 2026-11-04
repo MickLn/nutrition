@@ -4,16 +4,16 @@
  * - Pages : réseau d'abord, repli sur le cache hors-ligne.
  * - Images Open Food Facts : cache d'abord (vignettes produits).
  */
-const VERSION = "v2";
+const VERSION = "v3";
 const SHELL = `shell-${VERSION}`;
 const STATIC = `static-${VERSION}`;
 const IMAGES = `images-${VERSION}`;
 const PAGES = [
-  "/", "/ajouter/", "/bienvenue/", "/recettes/", "/progres/",
+  "/", "/ajouter/", "/ajouter/scanner/", "/ajouter/aliment/", "/aliment/", "/bienvenue/", "/recettes/", "/progres/",
   "/moi/", "/moi/top/", "/moi/profil/", "/moi/reglages/", "/moi/reglages/objectif/",
   "/moi/reglages/sauvegarde/", "/moi/reglages/apparence/", "/moi/reglages/sources/",
   "/moi/reglages/poids/", "/moi/reglages/notion/",
-  "/data/ciqual.json", "/data/ciqual-names.fr.json", "/data/ciqual-names.en.json",
+  "/data/ciqual.json", "/zxing/zxing_reader.wasm", "/data/ciqual-names.fr.json", "/data/ciqual-names.en.json",
 ];
 
 self.addEventListener("install", (event) => {
