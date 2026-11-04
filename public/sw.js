@@ -13,7 +13,7 @@ const PAGES = [
   "/moi/", "/moi/top/", "/moi/profil/", "/moi/reglages/", "/moi/reglages/objectif/",
   "/moi/reglages/sauvegarde/", "/moi/reglages/apparence/", "/moi/reglages/sources/",
   "/moi/reglages/poids/", "/moi/reglages/notion/",
-  "/data/ciqual.json", "/zxing/zxing_reader.wasm", "/data/ciqual-names.fr.json", "/data/ciqual-names.en.json",
+  "/data/ciqual.json", "/zxing/zxing_reader.wasm", "/data/ciqual-names.en.json",
 ];
 
 self.addEventListener("install", (event) => {
