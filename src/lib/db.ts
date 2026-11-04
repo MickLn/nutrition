@@ -88,7 +88,7 @@ export type Weight = {
   id: string;
   date: string;
   kg: number;
-  source: "manual" | "shortcut";
+  source: "manual" | "shortcut" | "health";
   updatedAt: number;
 };
 
