@@ -3,80 +3,73 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Tokens sémantiques du thème par défaut "Papier & Signal".
+ * Tokens du thème « Papier & Signal », mêmes noms que les variables Figma.
  * Source de vérité : src/theme/themes.ts. Ces valeurs ne servent que si JS
  * ne s'est pas encore exécuté ; ensuite le thème choisi les remplace.
  */
 :root {
-  --bg: #f4f3ef;
-  --bg2: color-mix(in srgb, #1a1915 5%, #f4f3ef);
-  --fg: #1a1915;
-  --muted: #5b5a56;
-  --blue: #002fa7;
-  --line: rgb(26 25 21 / 0.14);
-  --action: #ff6f0f;
-  --action-fg: #1a1915;
-  --chart-kcal: #ff6f0f;
-  --chart-protein: #002fa7;
-  --chart-carbs: #6b8bff;
-  --chart-fat: #8a8780;
-  --radius: 1rem;
-
-  /* Alias shadcn/ui : les composants shadcn ajoutés plus tard suivront le thème. */
-  --background: var(--bg);
-  --foreground: var(--fg);
-  --card: var(--bg2);
-  --card-foreground: var(--fg);
-  --popover: var(--bg);
-  --popover-foreground: var(--fg);
-  --primary: var(--action);
-  --primary-foreground: var(--action-fg);
-  --secondary: var(--bg2);
-  --secondary-foreground: var(--fg);
-  --muted-foreground: var(--muted);
-  --accent: var(--bg2);
-  --accent-foreground: var(--fg);
-  --border: var(--line);
-  --input: var(--line);
-  --ring: var(--blue);
+  --fond: #f4f3ef;
+  --texte: #1a1915;
+  --texte-discret: #1a1915ad;
+  --trait: #1a191524;
+  --piste: #1a191514;
+  --actif: #002fa7;
+  --actif-leger: #002fa71f;
+  --signal: #ff6f0f;
+  --sur-signal: #1a1915;
+  --eau: #002fa799;
+  --voile: #1a191566;
+  --rayon: 4px;
 }
 
 .dark {
-  --bg: #1a1915;
-  --bg2: color-mix(in srgb, #f4f3ef 5%, #1a1915);
-  --fg: #f4f3ef;
-  --muted: #9d9c98;
-  --blue: #6b8bff;
-  --line: rgb(244 243 239 / 0.12);
-  --chart-protein: #6b8bff;
-  --chart-carbs: #b7c6ff;
-  --chart-fat: #9d9c98;
+  --fond: #1a1915;
+  --texte: #f4f3ef;
+  --texte-discret: #f4f3ef9e;
+  --trait: #f4f3ef24;
+  --piste: #f4f3ef1a;
+  --actif: #638cff;
+  --actif-leger: #638cff29;
+  --eau: #638cff99;
+  --voile: #1a191599;
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-bg2: var(--bg2);
-  --color-fg: var(--fg);
-  --color-muted: var(--muted);
-  --color-blue: var(--blue);
-  --color-line: var(--line);
-  --color-action: var(--action);
-  --color-action-fg: var(--action-fg);
-  --color-chart-kcal: var(--chart-kcal);
-  --color-chart-protein: var(--chart-protein);
-  --color-chart-carbs: var(--chart-carbs);
-  --color-chart-fat: var(--chart-fat);
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-border: var(--border);
-  --color-ring: var(--ring);
+  --color-fond: var(--fond);
+  --color-texte: var(--texte);
+  --color-texte-discret: var(--texte-discret);
+  --color-trait: var(--trait);
+  --color-piste: var(--piste);
+  --color-actif: var(--actif);
+  --color-actif-leger: var(--actif-leger);
+  --color-signal: var(--signal);
+  --color-sur-signal: var(--sur-signal);
+  --color-eau: var(--eau);
+  --color-voile: var(--voile);
+  --radius-base: var(--rayon);
 
   --font-sans: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
+
+  /* Styles de texte du Figma (planche Typographies). */
+  --text-page: 32px;
+  --text-page--line-height: 1.15;
+  --text-section: 20px;
+  --text-section--line-height: 1.3;
+  --text-corps: 16px;
+  --text-corps--line-height: 1.3;
+  --text-petit: 14px;
+  --text-petit--line-height: 1.3;
+  --text-heros: 72px;
+  --text-heros--line-height: 1;
+  --text-grand: 40px;
+  --text-grand--line-height: 1;
+  --text-moyen: 20px;
+  --text-moyen--line-height: 1.2;
+  --text-valeur: 15px;
+  --text-valeur--line-height: 1.3;
+  --text-mono-petit: 12px;
+  --text-mono-petit--line-height: 1.3;
 }
 
 html {
@@ -85,8 +78,8 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--fond);
+  color: var(--texte);
   font-family: var(--font-outfit), system-ui, sans-serif;
   overscroll-behavior-y: none;
 }
@@ -102,4 +95,55 @@ input,
 select,
 textarea {
   font-size: 16px;
+}
+
+/* Mono/Libellé : petites capitales espacées (PROTÉINES, DÉJEUNER…). */
+.libelle {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-discret);
+}
+
+/* Réduire les animations : fondu à la place des glissements. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Panneau : montée depuis le bas, voile derrière. */
+dialog.sheet::backdrop {
+  background: var(--voile);
+}
+dialog.sheet[open] {
+  animation: sheet-up 220ms ease-out;
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+.toast {
+  animation: fade-in 160ms ease-out;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Zone de tap agrandie (≥ 44 px) sans changer l'espacement visible du Figma. */
+.tap {
+  position: relative;
+}
+.tap::after {
+  content: "";
+  position: absolute;
+  inset: -13px -4px;
 }

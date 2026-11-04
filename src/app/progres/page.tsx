@@ -23,7 +23,7 @@ export default function ProgressPage() {
             <CardTitle>Dépense réelle (TDEE adaptatif)</CardTitle>
             <Soon phase={8} />
           </div>
-          <p className="mt-2 text-sm text-muted">Calculée chaque semaine à partir du poids lissé et des calories saisies.</p>
+          <p className="mt-2 text-sm text-texte-discret">Calculée chaque semaine à partir du poids lissé et des calories saisies.</p>
         </Card>
       </div>
     </>

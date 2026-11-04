@@ -9,13 +9,13 @@ export function CalorieRing({ value, goal }: { value: number; goal: number | nul
   return (
     <div className="relative grid size-[148px] place-items-center">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--line)" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--piste)" strokeWidth={stroke} />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="var(--chart-kcal)"
+          stroke="var(--actif)"
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={c}
@@ -25,7 +25,7 @@ export function CalorieRing({ value, goal }: { value: number; goal: number | nul
       </svg>
       <div className="absolute text-center">
         <p className="num text-[28px] font-medium leading-none">{remaining ?? Math.round(value)}</p>
-        <p className="mt-1 text-xs text-muted">{remaining === null ? "kcal" : remaining >= 0 ? "kcal restantes" : "kcal en trop"}</p>
+        <p className="mt-1 text-xs text-texte-discret">{remaining === null ? "kcal" : remaining >= 0 ? "kcal restantes" : "kcal en trop"}</p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export default function SettingsPage() {
         <StorageCard />
         <Card>
           <CardTitle>Sources des données</CardTitle>
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-texte-discret">
             Table de composition nutritionnelle CIQUAL, ANSES (licence ouverte Etalab). Produits industriels : Open Food
             Facts (ODbL).
           </p>
@@ -66,23 +66,23 @@ function AppearanceCard() {
                 onClick={() => setAppearance({ themeId: t.id })}
                 aria-pressed={selected}
                 className={cn(
-                  "flex min-h-14 w-full items-center gap-3 rounded-xl border bg-bg px-3 text-left transition-transform active:scale-[0.98]",
-                  selected ? "border-blue" : "border-line",
+                  "flex min-h-14 w-full items-center gap-3 rounded-base border bg-fond px-3 text-left transition-transform active:scale-[0.98]",
+                  selected ? "border-actif" : "border-trait",
                 )}
               >
                 <span className="flex -space-x-1.5">
-                  {[t.light.bg, t.light.fg, t.light.action, t.light.blue, t.dark.blue].map((c, i) => (
-                    <span key={i} className="size-6 rounded-full border border-line" style={{ background: c }} />
+                  {[t.light.fond, t.light.texte, t.light.signal, t.light.actif, t.dark.actif].map((c, i) => (
+                    <span key={i} className="size-6 rounded-full border border-trait" style={{ background: c }} />
                   ))}
                 </span>
                 <span className="flex-1 text-[15px] font-medium">{t.name}</span>
-                {selected && <Check className="size-5 text-blue" />}
+                {selected && <Check className="size-5 text-actif" />}
               </button>
             </li>
           );
         })}
       </ul>
-      <div className="flex items-center justify-between text-sm text-muted">
+      <div className="flex items-center justify-between text-sm text-texte-discret">
         <span>Couleurs personnalisées</span>
         <Soon phase={11} />
       </div>
@@ -143,9 +143,9 @@ function BackupCard() {
     <Card className="space-y-4">
       <div>
         <CardTitle>Sauvegarde</CardTitle>
-        <p className="mt-1 text-sm text-muted">
+        <p className="mt-1 text-sm text-texte-discret">
           Dernière sauvegarde :{" "}
-          <span className="num text-fg">{last ? new Date(last).toLocaleDateString("fr-FR") : "jamais"}</span>
+          <span className="num text-texte">{last ? new Date(last).toLocaleDateString("fr-FR") : "jamais"}</span>
         </p>
       </div>
 
@@ -155,7 +155,7 @@ function BackupCard() {
           type="checkbox"
           checked={includeImages}
           onChange={(e) => setIncludeImages(e.target.checked)}
-          className="size-5 accent-[var(--blue)]"
+          className="size-5 accent-[var(--actif)]"
         />
       </label>
 
@@ -164,7 +164,7 @@ function BackupCard() {
         <select
           value={interval}
           onChange={(e) => db.settings.put({ key: BACKUP_INTERVAL_KEY, value: Number(e.target.value) })}
-          className="num rounded-lg border border-line bg-bg px-2 py-1.5"
+          className="num rounded-base border border-trait bg-fond px-2 py-1.5"
         >
           {[1, 3, 7, 14, 30].map((d) => (
             <option key={d} value={d}>
@@ -194,7 +194,7 @@ function BackupCard() {
       </div>
 
       {preview && (
-        <div className="space-y-3 rounded-xl border border-line bg-bg p-3">
+        <div className="space-y-3 rounded-base border border-trait bg-fond p-3">
           <p className="text-sm">
             Sauvegarde du <span className="num">{new Date(preview.backup.exportedAt).toLocaleDateString("fr-FR")}</span> :{" "}
             <span className="num">{preview.counts.logEntries}</span> entrées, <span className="num">{preview.counts.foods}</span>{" "}
@@ -216,7 +216,7 @@ function BackupCard() {
       )}
 
       {message && (
-        <p role="status" className={cn("text-sm", message.kind === "error" ? "font-medium text-fg" : "text-blue")}>
+        <p role="status" className={cn("text-sm", message.kind === "error" ? "font-medium text-texte" : "text-actif")}>
           {message.text}
         </p>
       )}
@@ -240,18 +240,18 @@ function StorageCard() {
       {info ? (
         <dl className="mt-2 space-y-1 text-sm">
           <div className="flex justify-between">
-            <dt className="text-muted">Utilisé</dt>
+            <dt className="text-texte-discret">Utilisé</dt>
             <dd className="num">
               {mb(info.usage)} Mo / {mb(info.quota)} Mo
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-muted">Protégé contre l&apos;effacement</dt>
+            <dt className="text-texte-discret">Protégé contre l&apos;effacement</dt>
             <dd>{info.persisted ? "Oui" : "Non (installe l'app sur l'écran d'accueil)"}</dd>
           </div>
         </dl>
       ) : (
-        <p className="mt-2 text-sm text-muted">Calcul…</p>
+        <p className="mt-2 text-sm text-texte-discret">Calcul…</p>
       )}
     </Card>
   );
