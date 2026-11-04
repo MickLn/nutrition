@@ -333,7 +333,20 @@
       "never-copied": "Never copied",
       "never-copied-detail": "log, weight, waist",
       "copy-now": "Copy now",
-      "disconnect": "Disconnect Notion"
+      "disconnect": "Disconnect Notion",
+      "code": "Copy code",
+      "code-set": "set",
+      "code-none": "to enter",
+      "code-title": "Copy code",
+      "code-hint": "The NOTION_SYNC_SECRET code chosen in Vercel. It stays on this phone.",
+      "code-save": "Save",
+      "pending": "Waiting",
+      "late": "waiting",
+      "done": "Copy done",
+      "error-code": "Code rejected. Check it in Vercel.",
+      "error-config": "Vercel is not set up for Notion yet.",
+      "error-server": "Notion did not answer. Retrying automatically.",
+      "error-network": "No connection. Retrying automatically."
     },
     "sources": {
       "title": "Sources",

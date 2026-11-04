@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 100 % local : export statique, aucun serveur.
-  output: "export",
+  // Local d'abord : toutes les pages sont pré-rendues en statique ; seule la route /api/notion tourne sur Vercel.
   images: { unoptimized: true },
   trailingSlash: true,
   turbopack: {
