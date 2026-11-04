@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Outfit } from "next/font/google";
 import { AppBoot } from "@/components/app-boot";
 import { BottomNav } from "@/components/bottom-nav";
+import { Toaster } from "@/components/ui/toast";
 import { themeBootScript } from "@/theme/apply";
 import { AppearanceProvider } from "@/theme/appearance-provider";
 import { brand } from "@/theme/themes";
@@ -34,10 +35,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh">
         <AppearanceProvider>
           <AppBoot />
-          <main className="mx-auto max-w-md px-4 pt-[max(env(safe-area-inset-top),12px)] pb-[calc(96px+env(safe-area-inset-bottom))]">
+          <main className="mx-auto max-w-md px-[22px] pt-[max(env(safe-area-inset-top),24px)] pb-[calc(110px+env(safe-area-inset-bottom))]">
             {children}
           </main>
           <BottomNav />
+          <Toaster />
         </AppearanceProvider>
       </body>
     </html>

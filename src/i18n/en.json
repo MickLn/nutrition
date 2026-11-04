@@ -1,4 +1,82 @@
 {
+  "meta": {
+    "locale": "en-GB"
+  },
+  "nav": {
+    "journal": "Log",
+    "recipes": "Recipes",
+    "add": "Add",
+    "progress": "Progress",
+    "me": "Me",
+    "main": "Main navigation"
+  },
+  "day": {
+    "prev": "Previous day",
+    "next": "Next day",
+    "of-goal": "/ {goal} kcal",
+    "left": "{n} kcal left",
+    "over": "{n} kcal over",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fiber": "Fibre",
+    "protein-left": "{n} g to go",
+    "protein-done": "target reached",
+    "no-goal": "Log your weight to work out your target",
+    "add": "+ Add",
+    "copy-yesterday": "Copy yesterday",
+    "copied": "Yesterday copied {to}",
+    "removed": "Removed {from}",
+    "undo": "Undo",
+    "empty": "–"
+  },
+  "water": {
+    "title": "Water",
+    "add": "Add water",
+    "added": "{ml} ml added",
+    "of-goal": "/ {goal} L"
+  },
+  "weight": {
+    "title": "Weight",
+    "note": "Log weight",
+    "unit": "kg",
+    "delta": "{delta} kg in 7 days",
+    "late": "No weigh-in for {n} days",
+    "save": "Save"
+  },
+  "add": {
+    "title": "Add",
+    "search": "Search for a food",
+    "recents": "Recent",
+    "results": "Results",
+    "none": "No results",
+    "loading": "Loading foods…",
+    "weigh": "Weigh ({n})",
+    "to-meal": "Add {to}",
+    "meal": "Meal",
+    "total": "Total",
+    "total-value": "{kcal} kcal, {protein} g protein",
+    "grams": "Amount in grams",
+    "ok": "Looks right",
+    "back": "Back",
+    "select": "Select {name}",
+    "last-time": "{n} g last time",
+    "cancel": "Cancel"
+  },
+  "edit": {
+    "save": "Save",
+    "remove": "Remove from meal",
+    "kcal": "kcal"
+  },
+  "units": {
+    "g": "g",
+    "kcal": "kcal",
+    "l": "L",
+    "ml": "ml"
+  },
+  "sheet": {
+    "close": "Close"
+  },
   "adjust": {
     "not-enough-data": "Not enough weigh-ins to adjust yet (2 weeks needed).",
     "on-track": "Your loss is on target: nothing changes.",
@@ -29,7 +107,35 @@
     "strava": "Strava",
     "notion-sync": "Copy to Notion"
   },
-  "meals": { "breakfast": "Breakfast", "lunch": "Lunch", "dinner": "Dinner", "snack": "Snack" },
-  "entry": { "quantity-check": "Check the amount?" },
-  "cooked": { "product-weighing": "Your weighing", "base-weighing": "Your weighing", "ciqual-cooked": "CIQUAL" }
+  "meals": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack"
+  },
+  "entry": {
+    "quantity-check": "Check the amount?"
+  },
+  "cooked": {
+    "product-weighing": "Your weighing",
+    "base-weighing": "Your weighing",
+    "ciqual-cooked": "CIQUAL"
+  },
+  "meals-from": {
+    "breakfast": "from breakfast",
+    "lunch": "from lunch",
+    "dinner": "from dinner",
+    "snack": "from snack"
+  },
+  "meals-to": {
+    "breakfast": "to breakfast",
+    "lunch": "to lunch",
+    "dinner": "to dinner",
+    "snack": "to snack"
+  },
+  "backup": {
+    "none": "No backup yet",
+    "since": "Last backup {n} days ago",
+    "save": "Back up"
+  }
 }

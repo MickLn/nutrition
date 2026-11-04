@@ -31,7 +31,7 @@ export function applyAppearance(appearance: Appearance) {
   root.style.colorScheme = dark ? "dark" : "light";
 
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", getComputedStyle(root).getPropertyValue("--bg").trim());
+  if (meta) meta.setAttribute("content", getComputedStyle(root).getPropertyValue("--fond").trim());
 
   try {
     localStorage.setItem(

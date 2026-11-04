@@ -1,4 +1,82 @@
 {
+  "meta": {
+    "locale": "fr-FR"
+  },
+  "nav": {
+    "journal": "Journal",
+    "recipes": "Recettes",
+    "add": "Ajouter",
+    "progress": "Progrès",
+    "me": "Moi",
+    "main": "Navigation principale"
+  },
+  "day": {
+    "prev": "Jour précédent",
+    "next": "Jour suivant",
+    "of-goal": "/ {goal} kcal",
+    "left": "Reste {n} kcal",
+    "over": "{n} kcal au-delà",
+    "protein": "Protéines",
+    "carbs": "Glucides",
+    "fat": "Lipides",
+    "fiber": "Fibres",
+    "protein-left": "encore {n} g",
+    "protein-done": "objectif atteint",
+    "no-goal": "Note ton poids pour calculer ton objectif",
+    "add": "+ Ajouter",
+    "copy-yesterday": "Copier hier",
+    "copied": "Hier copié {to}",
+    "removed": "Retiré {from}",
+    "undo": "Annuler",
+    "empty": "–"
+  },
+  "water": {
+    "title": "Eau",
+    "add": "Ajouter de l'eau",
+    "added": "{ml} ml ajoutés",
+    "of-goal": "/ {goal} L"
+  },
+  "weight": {
+    "title": "Poids",
+    "note": "Noter le poids",
+    "unit": "kg",
+    "delta": "{delta} kg en 7 jours",
+    "late": "Pas de pesée depuis {n} jours",
+    "save": "Enregistrer"
+  },
+  "add": {
+    "title": "Ajouter",
+    "search": "Chercher un aliment",
+    "recents": "Récents",
+    "results": "Résultats",
+    "none": "Aucun résultat",
+    "loading": "Chargement des aliments…",
+    "weigh": "Peser ({n})",
+    "to-meal": "Ajouter {to}",
+    "meal": "Repas",
+    "total": "Total",
+    "total-value": "{kcal} kcal, {protein} g protéines",
+    "grams": "Quantité en grammes",
+    "ok": "C'est bon",
+    "back": "Retour",
+    "select": "Choisir {name}",
+    "last-time": "{n} g la dernière fois",
+    "cancel": "Annuler"
+  },
+  "edit": {
+    "save": "Enregistrer",
+    "remove": "Retirer du repas",
+    "kcal": "kcal"
+  },
+  "units": {
+    "g": "g",
+    "kcal": "kcal",
+    "l": "L",
+    "ml": "ml"
+  },
+  "sheet": {
+    "close": "Fermer"
+  },
   "adjust": {
     "not-enough-data": "Pas assez de pesées pour ajuster (il faut 2 semaines).",
     "on-track": "Ta perte suit l'objectif : rien ne change.",
@@ -29,7 +107,35 @@
     "strava": "Strava",
     "notion-sync": "Copie vers Notion"
   },
-  "meals": { "breakfast": "Petit-déjeuner", "lunch": "Déjeuner", "dinner": "Dîner", "snack": "Collation" },
-  "entry": { "quantity-check": "Vérifie la quantité ?" },
-  "cooked": { "product-weighing": "Ta pesée", "base-weighing": "Ta pesée", "ciqual-cooked": "CIQUAL" }
+  "meals": {
+    "breakfast": "Petit-déjeuner",
+    "lunch": "Déjeuner",
+    "dinner": "Dîner",
+    "snack": "Collation"
+  },
+  "entry": {
+    "quantity-check": "Vérifie la quantité ?"
+  },
+  "cooked": {
+    "product-weighing": "Ta pesée",
+    "base-weighing": "Ta pesée",
+    "ciqual-cooked": "CIQUAL"
+  },
+  "meals-from": {
+    "breakfast": "du petit-déjeuner",
+    "lunch": "du déjeuner",
+    "dinner": "du dîner",
+    "snack": "de la collation"
+  },
+  "meals-to": {
+    "breakfast": "au petit-déjeuner",
+    "lunch": "au déjeuner",
+    "dinner": "au dîner",
+    "snack": "à la collation"
+  },
+  "backup": {
+    "none": "Aucune sauvegarde pour l'instant",
+    "since": "Dernière sauvegarde il y a {n} jours",
+    "save": "Sauvegarder"
+  }
 }

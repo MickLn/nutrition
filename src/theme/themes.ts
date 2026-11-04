@@ -6,36 +6,32 @@ import { z } from "zod";
  * ils passent par les tokens sémantiques ci-dessous.
  */
 export const brand = {
-  paper: "#f4f3ef", // Papier Coton
-  carbon: "#1a1915", // Encre Ardoise
+  paper: "#f4f3ef", // Papier
+  carbon: "#1a1915", // Carbone
   signal: "#ff6f0f", // Orange Signal
   klein: "#002fa7", // Bleu Klein
-  azur: "#6b8bff", // Azur Brumeux
+  kleinDark: "#638cff", // Bleu Klein en mode sombre
 } as const;
 
-/** Couche 2 : tokens sémantiques, seuls utilisés par l'UI. */
+/** Couche 2 : tokens sémantiques, mêmes noms que les variables « Couleurs » du Figma. Seuls utilisés par l'UI. */
 export const TOKEN_NAMES = [
-  "bg",
-  "bg2",
-  "fg",
-  "muted",
-  "blue",
-  "line",
-  "action",
-  "action-fg",
-  "chart-kcal",
-  "chart-protein",
-  "chart-carbs",
-  "chart-fat",
+  "fond",
+  "texte",
+  "texte-discret",
+  "trait",
+  "piste",
+  "actif",
+  "actif-leger",
+  "signal",
+  "sur-signal",
+  "eau",
+  "voile",
 ] as const;
 
 export type TokenName = (typeof TOKEN_NAMES)[number];
 
 const tokenSetSchema = z.object(
-  Object.fromEntries(TOKEN_NAMES.map((n) => [n, z.string().min(1)])) as Record<
-    TokenName,
-    z.ZodString
-  >,
+  Object.fromEntries(TOKEN_NAMES.map((n) => [n, z.string().min(1)])) as Record<TokenName, z.ZodString>,
 );
 
 export type TokenSet = z.infer<typeof tokenSetSchema>;
@@ -50,36 +46,38 @@ export const themeSchema = z.object({
 
 export type Theme = z.infer<typeof themeSchema>;
 
+/** Une couleur de la palette avec transparence (règle du 28/10 : jamais de nouveau code couleur). */
+const alpha = (hex: string, a: number) => `${hex}${Math.round(a * 255).toString(16).padStart(2, "0")}`;
+
+/** Valeurs relevées dans les variables Figma (04/11). */
 export const papierSignal: Theme = {
   id: "papier-signal",
   name: "Papier & Signal",
   light: {
-    bg: brand.paper,
-    bg2: `color-mix(in srgb, ${brand.carbon} 5%, ${brand.paper})`,
-    fg: brand.carbon,
-    muted: "#5b5a56",
-    blue: brand.klein,
-    line: "rgb(26 25 21 / 0.14)",
-    action: brand.signal,
-    "action-fg": brand.carbon,
-    "chart-kcal": brand.signal,
-    "chart-protein": brand.klein,
-    "chart-carbs": brand.azur,
-    "chart-fat": "#8a8780",
+    fond: brand.paper,
+    texte: brand.carbon,
+    "texte-discret": alpha(brand.carbon, 0.68),
+    trait: alpha(brand.carbon, 0.14),
+    piste: alpha(brand.carbon, 0.08),
+    actif: brand.klein,
+    "actif-leger": alpha(brand.klein, 0.12),
+    signal: brand.signal,
+    "sur-signal": brand.carbon,
+    eau: alpha(brand.klein, 0.6),
+    voile: alpha(brand.carbon, 0.4),
   },
   dark: {
-    bg: brand.carbon,
-    bg2: `color-mix(in srgb, ${brand.paper} 5%, ${brand.carbon})`,
-    fg: brand.paper,
-    muted: "#9d9c98",
-    blue: brand.azur,
-    line: "rgb(244 243 239 / 0.12)",
-    action: brand.signal,
-    "action-fg": brand.carbon,
-    "chart-kcal": brand.signal,
-    "chart-protein": brand.azur,
-    "chart-carbs": "#b7c6ff",
-    "chart-fat": "#9d9c98",
+    fond: brand.carbon,
+    texte: brand.paper,
+    "texte-discret": alpha(brand.paper, 0.62),
+    trait: alpha(brand.paper, 0.14),
+    piste: alpha(brand.paper, 0.1),
+    actif: brand.kleinDark,
+    "actif-leger": alpha(brand.kleinDark, 0.16),
+    signal: brand.signal,
+    "sur-signal": brand.carbon,
+    eau: alpha(brand.kleinDark, 0.6),
+    voile: alpha(brand.carbon, 0.6),
   },
 };
 

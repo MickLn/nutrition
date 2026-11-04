@@ -17,6 +17,8 @@ export type Food = {
   brand?: string;
   barcode?: string;
   per100g: Macros;
+  /** Étiquettes libres, par exemple « light » pour les suggestions du soir. */
+  tags?: string[];
   portions: { label: string; grams: number }[];
   nutriscore?: string;
   /** Image Open Food Facts : on garde l'URL, le service worker met la vignette en cache. */
@@ -29,8 +31,12 @@ export type Food = {
 export type Recipe = {
   id: string;
   name: string;
+  /** « recipe » : plat classique ; « batch » : plat cuisiné en grande quantité, on soustrait ce qui est mangé. */
+  kind: "recipe" | "batch";
   ingredients: { foodId: string; grams: number }[];
   cookedWeightG?: number;
+  remainingG?: number;
+  finishedAt?: number;
   servings: number;
   updatedAt: number;
 };
@@ -41,17 +47,21 @@ export type LogEntry = {
   id: string;
   /** AAAA-MM-JJ */
   date: string;
+  /** HH:MM, heure de la saisie. */
+  time: string;
+  /** Déduit de l'heure (mealFromTime), modifiable. */
   meal: Meal;
   refType: "food" | "recipe";
   refId: string;
   name: string;
   grams: number;
-  /** Copie figée des valeurs au moment de la saisie : modifier l'aliment ne réécrit pas l'historique. */
-  snapshot: Macros;
+  /** Copie figée des valeurs pour 100 g au moment de la saisie : modifier l'aliment ne réécrit pas l'historique. */
+  snapshot: Macros & { fiber: number };
   updatedAt: number;
 };
 
-export type Favorite = {
+/** Aliments mangés ensemble, ajoutés en un tap (ancien « Favori »). */
+export type Menu = {
   id: string;
   name: string;
   items: { refType: "food" | "recipe"; refId: string; grams: number }[];
@@ -66,35 +76,66 @@ export type Weight = {
   updatedAt: number;
 };
 
+export type Waist = { id: string; date: string; cm: number; updatedAt: number };
+
+export type Water = { id: string; date: string; ml: number; updatedAt: number };
+
 export type ImageBlob = { id: string; blob: Blob; createdAt: number };
 
 export type Setting = { key: string; value: unknown };
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
+
+const V1 = {
+  foods: "id, source, name, barcode, updatedAt",
+  recipes: "id, name, updatedAt",
+  logEntries: "id, date, [date+meal], refId, updatedAt",
+  favorites: "id, name",
+  weights: "id, date",
+  images: "id",
+  settings: "key",
+};
 
 export class NutritionDB extends Dexie {
   foods!: EntityTable<Food, "id">;
   recipes!: EntityTable<Recipe, "id">;
   logEntries!: EntityTable<LogEntry, "id">;
-  favorites!: EntityTable<Favorite, "id">;
+  menus!: EntityTable<Menu, "id">;
   weights!: EntityTable<Weight, "id">;
+  waists!: EntityTable<Waist, "id">;
+  water!: EntityTable<Water, "id">;
   images!: EntityTable<ImageBlob, "id">;
   settings!: EntityTable<Setting, "key">;
 
-  constructor() {
-    super("nutrition");
-    this.version(SCHEMA_VERSION).stores({
-      foods: "id, source, name, barcode, updatedAt",
-      recipes: "id, name, updatedAt",
-      logEntries: "id, date, [date+meal], refId, updatedAt",
-      favorites: "id, name",
-      weights: "id, date",
-      images: "id",
-      settings: "key",
-    });
+  constructor(name = "nutrition") {
+    super(name);
+    this.version(1).stores(V1);
+    this.version(2)
+      .stores({
+        ...V1,
+        recipes: "id, name, kind, updatedAt",
+        favorites: null,
+        menus: "id, name",
+        waists: "id, date",
+        water: "id, date",
+      })
+      .upgrade(async (tx) => {
+        const favs = await tx.table("favorites").toArray();
+        await tx.table("menus").bulkPut(favs.map((f) => ({ updatedAt: Date.now(), ...f })));
+        await tx.table("logEntries").toCollection().modify((e) => {
+          e.time ??= DEFAULT_TIME;
+          e.snapshot = { ...e.snapshot, fiber: e.snapshot?.fiber ?? 0 };
+        });
+        await tx.table("recipes").toCollection().modify((r) => {
+          r.kind ??= "recipe";
+        });
+      });
   }
 }
 
+/** Heure donnée aux anciennes saisies qui n'en avaient pas. */
+export const DEFAULT_TIME = "12:00";
+
 export const db = new NutritionDB();
 
-export const DATA_TABLES = ["foods", "recipes", "logEntries", "favorites", "weights", "settings"] as const;
+export const DATA_TABLES = ["foods", "recipes", "logEntries", "menus", "weights", "waists", "water", "settings"] as const;

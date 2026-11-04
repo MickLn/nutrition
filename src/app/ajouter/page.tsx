@@ -1,70 +1,101 @@
 "use client";
 
-import { ScanBarcode, Search } from "lucide-react";
-import { useState } from "react";
-import { EmptyState } from "@/components/empty-state";
-import { PageHeader } from "@/components/page-header";
-import { Soon } from "@/components/soon";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { FoodSearch } from "@/features/add/food-search";
+import { MealPicker } from "@/features/add/meal-picker";
+import { WeighRow, type Weighed } from "@/features/add/weigh-list";
+import { addEntries, nowHHMM } from "@/features/journal/journal";
+import { mealFromTime } from "@/engine/entry";
+import { useT } from "@/i18n/use-t";
+import { toISODate } from "@/lib/dates";
+import type { Meal } from "@/lib/db";
+import { addCore, forGrams, ZERO } from "@/lib/nutrition";
 
-const TABS = [
-  { id: "recent", label: "Récents", phase: 4 },
-  { id: "favorites", label: "Favoris", phase: 7 },
-  { id: "ciqual", label: "Aliments", phase: 3 },
-  { id: "products", label: "Produits", phase: 5 },
-  { id: "recipes", label: "Recettes", phase: 6 },
-] as const;
-
-type Tab = (typeof TABS)[number];
+const MEALS = ["breakfast", "lunch", "dinner", "snack"];
 
 export default function AddPage() {
-  const [tab, setTab] = useState<Tab>(TABS[0]);
   return (
-    <>
-      <PageHeader title="Ajouter" subtitle="Journal" />
+    <Suspense>
+      <AddFlow />
+    </Suspense>
+  );
+}
 
-      <div className="flex gap-2">
-        <label className="flex min-h-12 flex-1 items-center gap-2 rounded-xl border border-line bg-bg2 px-3">
-          <Search className="size-5 text-muted" />
-          <span className="sr-only">Rechercher un aliment</span>
-          <input
-            type="search"
-            enterKeyHint="search"
-            placeholder="Rechercher un aliment…"
-            className="w-full bg-transparent outline-none placeholder:text-muted"
-          />
-        </label>
-        <Button variant="primary" size="icon" className="size-12" aria-label="Scanner un code-barres" disabled>
-          <ScanBarcode />
-        </Button>
-      </div>
+/** Saisie : 1) chercher et cocher plusieurs aliments, 2) peser chacun, 3) ajouter au repas. */
+function AddFlow() {
+  const { t, n } = useT();
+  const router = useRouter();
+  const params = useSearchParams();
+  const date = params.get("date") ?? toISODate(new Date());
+  const asked = params.get("meal");
+  const [meal, setMeal] = useState<Meal>(asked && MEALS.includes(asked) ? (asked as Meal) : mealFromTime(nowHHMM()));
+  const [items, setItems] = useState<Weighed[]>([]);
+  const [step, setStep] = useState<"search" | "weigh">("search");
 
-      <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => setTab(t)}
-            aria-pressed={tab.id === t.id}
-            className={cn(
-              "min-h-9 shrink-0 rounded-full border px-4 text-sm font-medium transition-transform active:scale-95",
-              tab.id === t.id ? "border-fg bg-fg text-bg" : "border-line text-muted",
-            )}
-          >
-            {t.label}
+  const toggle = (food: Weighed["food"]) =>
+    setItems((xs) => (xs.some((x) => x.food.id === food.id) ? xs.filter((x) => x.food.id !== food.id) : [...xs, { food, grams: null }]));
+  const total = items.reduce((acc, i) => addCore(acc, forGrams(i.food.per100g, i.grams ?? 0)), ZERO);
+  const ready = items.some((i) => i.grams);
+
+  return (
+    <div className="pb-24">
+      {step === "search" ? (
+        <div className="flex items-center justify-between gap-3">
+          <MealPicker meal={meal} onChange={setMeal} />
+          <Link href="/" className="tap text-corps text-actif">
+            {t("add.cancel")}
+          </Link>
+        </div>
+      ) : (
+        <>
+          <button onClick={() => setStep("search")} className="tap text-petit text-actif">
+            ‹ {t("add.back")}
           </button>
-        ))}
+          <div className="mt-3.5">
+            <MealPicker meal={meal} onChange={setMeal} />
+          </div>
+        </>
+      )}
+
+      <div className="mt-3.5">
+        {step === "search" ? (
+          <FoodSearch selected={items.map((i) => i.food)} onToggle={toggle} />
+        ) : (
+          <>
+            {items.map((it) => (
+              <WeighRow key={it.food.id} item={it} onChange={(w) => setItems((xs) => xs.map((x) => (x.food.id === w.food.id ? w : x)))} />
+            ))}
+            <div className="flex items-center justify-between gap-3 pt-3.5">
+              <span className="text-petit">{t("add.total")}</span>
+              <span className="num text-mono-petit">{t("add.total-value", { kcal: n(total.kcal), protein: n(total.protein) })}</span>
+            </div>
+          </>
+        )}
       </div>
 
-      <Card className="mt-4">
-        <EmptyState icon={Search} title={`${tab.label} : bientôt disponible`}>
-          <p>Cette liste arrive avec la prochaine étape du développement.</p>
-          <div className="mt-3">
-            <Soon phase={tab.phase} />
-          </div>
-        </EmptyState>
-      </Card>
-    </>
+      <div className="fixed inset-x-0 bottom-0 z-40 bg-fond pb-[calc(16px+env(safe-area-inset-bottom))] pt-3">
+        <div className="mx-auto max-w-md px-[22px]">
+          {step === "search" ? (
+            <Button className="w-full" disabled={!items.length} onClick={() => setStep("weigh")}>
+              {t("add.weigh", { n: items.length })}
+            </Button>
+          ) : (
+            <Button
+              className="w-full"
+              disabled={!ready}
+              onClick={async () => {
+                await addEntries(date, meal, items.filter((i) => i.grams).map((i) => ({ food: i.food, grams: i.grams! })));
+                router.push("/");
+              }}
+            >
+              {t("add.to-meal", { to: t(`meals-to.${meal}`) })}
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
