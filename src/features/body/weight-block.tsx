@@ -31,7 +31,8 @@ export function WeightBlock({ body, today, open, setOpen }: { body: BodyState | 
 }
 
 
-function WeightForm({ today, onDone }: { today: string; onDone: () => void }) {
+/** Formulaire « Noter le poids », aussi ouvert depuis Réglages › Poids et Apple Santé. */
+export function WeightForm({ today, onDone }: { today: string; onDone: () => void }) {
   const { t } = useT();
   const [kg, setKg] = useState<number | null>(null);
   return (
