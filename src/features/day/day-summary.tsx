@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Gauge } from "@/components/ui/gauge";
 import type { Targets } from "@/engine/targets";
 import { useT } from "@/i18n/use-t";
 import type { Core } from "@/lib/nutrition";
 
 /** Haut de l'écran du jour (Figma « Accueil ») : kcal en chiffre héros, protéines en avant, puis glucides, lipides, fibres. */
-export function DaySummary({ total, targets, onNoGoal }: { total: Core; targets: Targets | null; onNoGoal: () => void }) {
+export function DaySummary({ date, total, targets, onNoGoal }: { date: string; total: Core; targets: Targets | null; onNoGoal: () => void }) {
   const { t, n } = useT();
   const left = targets ? targets.kcal - total.kcal : null;
   const proteinLeft = targets ? targets.protein - total.protein : null;
@@ -25,10 +26,23 @@ export function DaySummary({ total, targets, onNoGoal }: { total: Core; targets:
         <p className="mt-2 text-petit">{left >= 0 ? t("day.left", { n: n(left) }) : t("day.over", { n: n(-left) })}</p>
       )}
 
-      <div className="mt-7 flex items-baseline justify-between gap-3">
-        <h2 className="libelle !text-actif">{t("day.protein")}</h2>
-        <Value value={total.protein} goal={targets?.protein} />
-      </div>
+      {/* Tap sur la jauge protéines : aliments qui comblent le reste (Figma 7:426). */}
+      {(() => {
+        const head = (
+          <>
+            <h2 className="libelle !text-actif">{t("day.protein")}</h2>
+            <Value value={total.protein} goal={targets?.protein} />
+          </>
+        );
+        const cls = "mt-7 flex items-baseline justify-between gap-3";
+        return targets ? (
+          <Link href={`/proteines/?date=${date}`} className={`${cls} tap`}>
+            {head}
+          </Link>
+        ) : (
+          <div className={cls}>{head}</div>
+        );
+      })()}
       <Gauge className="mt-2.5" value={total.protein} max={targets?.protein ?? null} tone="actif" />
       {proteinLeft !== null && (
         <p className="mt-2 text-petit text-actif">{proteinLeft > 0 ? t("day.protein-left", { n: n(proteinLeft) }) : t("day.protein-done")}</p>

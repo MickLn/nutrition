@@ -28,13 +28,30 @@
     "copied": "Hier copié {to}",
     "removed": "Retiré {from}",
     "undo": "Annuler",
-    "empty": "–"
+    "empty": "–",
+    "pick-date": "Choisir un jour",
+    "to-find": "g à trouver",
+    "suggest-line": "{g} g, {kcal} kcal",
+    "suggest-gain": "+{n} g",
+    "suggest-added": "{name} ajouté {to}",
+    "suggest-none": "Rien à proposer pour l'instant. Cherche un aliment avec le bouton Ajouter.",
+    "suggest-late": "Tard le soir, seulement du léger.",
+    "suggest-done": "Objectif de protéines atteint.",
+    "suggest-no-goal": "Note ton poids pour calculer ton objectif."
   },
   "water": {
     "title": "Eau",
     "add": "Ajouter de l'eau",
     "added": "{ml} ml ajoutés",
-    "of-goal": "/ {goal} L"
+    "of-goal": "/ {goal} L",
+    "sheet-add": "Ajouter {ml} ml",
+    "today": "Aujourd'hui"
+  },
+  "calendar": {
+    "prev-month": "Mois précédent",
+    "next-month": "Mois suivant",
+    "label": "Calendrier",
+    "has-entries": "{date}, repas saisis"
   },
   "weight": {
     "title": "Poids",
