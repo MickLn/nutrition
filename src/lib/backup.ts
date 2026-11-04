@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DATA_TABLES, db, SCHEMA_VERSION } from "./db";
+import { DATA_TABLES, db, DEFAULT_TIME, SCHEMA_VERSION } from "./db";
 
 type DataTable = (typeof DATA_TABLES)[number];
 
@@ -75,7 +75,7 @@ export async function readBackup(file: File): Promise<BackupPreview> {
   } catch {
     throw new Error("Ce fichier n'est pas un JSON valide.");
   }
-  const parsed = backupSchema.safeParse(raw);
+  const parsed = backupSchema.safeParse(upgradeBackup(raw));
   if (!parsed.success) throw new Error("Ce fichier n'est pas une sauvegarde de l'app Nutrition.");
   if (parsed.data.schemaVersion > SCHEMA_VERSION)
     throw new Error("Cette sauvegarde vient d'une version plus récente de l'app. Mets l'app à jour d'abord.");
@@ -113,6 +113,21 @@ export async function importBackup(backup: Backup, mode: "merge" | "replace") {
       backup.images.map((img) => ({ id: img.id, blob: base64ToBlob(img.data, img.type), createdAt: img.createdAt })),
     );
   });
+}
+
+/** Met une sauvegarde v1 au format v2 (mêmes règles que la migration de la base). */
+export function upgradeBackup(raw: unknown): unknown {
+  const b = raw as { schemaVersion?: number; tables?: Record<string, Record<string, unknown>[]> };
+  if (!b || typeof b !== "object" || b.schemaVersion !== 1 || !b.tables) return raw;
+  const { favorites = [], ...tables } = b.tables;
+  tables.menus = favorites.map((f) => ({ updatedAt: Date.now(), ...f }));
+  tables.logEntries = (tables.logEntries ?? []).map((e) => ({
+    ...e,
+    time: e.time ?? DEFAULT_TIME,
+    snapshot: { ...(e.snapshot as object), fiber: (e.snapshot as { fiber?: number })?.fiber ?? 0 },
+  }));
+  tables.recipes = (tables.recipes ?? []).map((r) => ({ kind: "recipe", ...r }));
+  return { ...b, schemaVersion: 2, tables };
 }
 
 function download(file: File) {
